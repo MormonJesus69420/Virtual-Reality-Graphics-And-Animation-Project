@@ -3,13 +3,12 @@
 
 #include <gmParametricsModule>
 
-class mybsplinecurve : public GMlib::PBSplineCurve<float>
-{
-public:
-    using PBSplineCurve::PBSplineCurve;
+class mybsplinecurve : public GMlib::PBSplineCurve<float> {
+  public:
+  using PBSplineCurve::PBSplineCurve;
 
-protected:
-    void localSimulate(double dt) override;
+  protected:
+  void localSimulate(double dt) override;
 };
 
 #endif // MYBSPLINECURVE_H

@@ -4,26 +4,24 @@
 // local
 #include "hidinput.h"
 
-
 // qt
 #include <QEvent>
 
 class HidInputEvent : public QEvent {
-public:
+  public:
   static const QEvent::Type HID_INPUT;
-  typedef QHash<QString,QVariant> HidInputParams;
+  typedef QHash<QString, QVariant> HidInputParams;
 
-  explicit HidInputEvent( const HidInput& input, const HidInputParams& params = HidInputParams() );
-  explicit HidInputEvent( const HidInputEvent& copy );
+  explicit HidInputEvent(const HidInput& input, const HidInputParams& params = HidInputParams());
+  explicit HidInputEvent(const HidInputEvent& copy);
 
-  const QVariant&                 getType() const;
-  const HidInput&                 getInput() const;
-  const HidInputParams&           getParams() const;
+  const QVariant& getType() const;
+  const HidInput& getInput() const;
+  const HidInputParams& getParams() const;
 
-private:
-  const HidInput                  _input;
-  const HidInputParams            _params;
+  private:
+  const HidInput _input;
+  const HidInputParams _params;
 };
-
 
 #endif // HIDINPUTEVENT_H

@@ -1,30 +1,23 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
-
 #include "application/gmlibwrapper.h"
 
 // qt
 #include <QObject>
 
-
-
 class Scenario : public GMlibWrapper {
   Q_OBJECT
-public:
+  public:
   using GMlibWrapper::GMlibWrapper;
 
-  void    initializeScenario() override;
-  void    cleanupScenario() override;
+  void initializeScenario() override;
+  void cleanupScenario() override;
 
+  public slots:
+  void callDefferedGL();
 
-public slots:
-  void    callDefferedGL();
-
-private:
+  private:
 };
-
-
-
 
 #endif // SCENARIO_H

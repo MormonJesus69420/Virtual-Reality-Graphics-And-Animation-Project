@@ -22,6 +22,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Wno-c++98-compat -Wno-documentation -pedantic -Werror")
 
   # Extra compile flags to turn of stuff we don't want to handle at the moment
+  # Stuff we CANNOT handle too
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-inconsistent-missing-destructor-override")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-inconsistent-missing-override")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-missing-variable-declarations")
@@ -114,7 +115,6 @@ set( HDRS
 
   scenario.h
   mybsplinecurve.h
-
   )
 
 set( SRCS
@@ -137,7 +137,6 @@ set( SRCS
 
   scenario.cpp
   mybsplinecurve.cpp
-
   )
 
 #########

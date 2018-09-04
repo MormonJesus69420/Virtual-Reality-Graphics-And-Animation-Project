@@ -6,37 +6,36 @@
 class FboInSGRenderer : public QQuickFramebufferObject {
   Q_OBJECT
   Q_PROPERTY(QString rcpair_name READ rcPairName WRITE setRcPairName)
-public:
+  public:
   FboInSGRenderer();
 
-  const QString&    rcPairName() const;
-  void              setRcPairName( const QString& name );
+  const QString& rcPairName() const;
+  void setRcPairName(const QString& name);
 
-  Renderer*         createRenderer() const override;
+  Renderer* createRenderer() const override;
 
-private slots:
-  void              onWindowChanged( QQuickWindow* window );
+  private slots:
+  void onWindowChanged(QQuickWindow* window);
 
+  signals:
+  void signKeyPressed(const QString& name, QKeyEvent* event);
+  void signKeyReleased(const QString& name, QKeyEvent* event);
+  void signMouseDoubleClicked(const QString& name, QMouseEvent* event);
+  void signMouseMoved(const QString& name, QMouseEvent* event);
+  void signMousePressed(const QString& name, QMouseEvent* event);
+  void signMouseReleased(const QString& name, QMouseEvent* event);
+  void signWheelEventOccurred(const QString& name, QWheelEvent* event);
 
-signals:
-  void              signKeyPressed( const QString& name, QKeyEvent* event );
-  void              signKeyReleased( const QString& name, QKeyEvent* event );
-  void              signMouseDoubleClicked( const QString& name, QMouseEvent* event );
-  void              signMouseMoved( const QString& name, QMouseEvent* event );
-  void              signMousePressed( const QString& name, QMouseEvent* event );
-  void              signMouseReleased( const QString& name, QMouseEvent* event );
-  void              signWheelEventOccurred( const QString& name, QWheelEvent* event);
+  private:
+  void keyPressEvent(QKeyEvent* event) override;
+  void keyReleaseEvent(QKeyEvent* event) override;
+  void mousePressEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
+  void mouseDoubleClickEvent(QMouseEvent* event) override;
+  void mouseMoveEvent(QMouseEvent* event) override;
+  void wheelEvent(QWheelEvent* event) override;
 
-private:
-  void              keyPressEvent(QKeyEvent *event) override;
-  void              keyReleaseEvent(QKeyEvent *event) override;
-  void              mousePressEvent(QMouseEvent *event) override;
-  void              mouseReleaseEvent(QMouseEvent *event) override;
-  void              mouseDoubleClickEvent(QMouseEvent *event) override;
-  void              mouseMoveEvent(QMouseEvent *event) override;
-  void              wheelEvent(QWheelEvent *event) override;
-
-  QString           _name {};
+  QString _name{};
 };
 
 #endif
