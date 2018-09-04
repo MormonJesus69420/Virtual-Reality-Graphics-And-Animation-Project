@@ -113,4 +113,4 @@ git push -u [REMOTE] [BRANCH]
 [Webshite](http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/index.html)
 
 **Chris Beams** - *How to Write a Git Commit Message* -
-[Webshite]](https://chris.beams.io/posts/git-commit/)
+[Webshite](https://chris.beams.io/posts/git-commit/)
