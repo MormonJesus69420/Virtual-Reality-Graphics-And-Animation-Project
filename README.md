@@ -2,34 +2,30 @@
 Documentation and general usage guide for project in STE6249 Virtual Reality Graphics And Animation Project.
 
 ## Getting Started
-In order to start working and contributing to this project you are required to
-familiarize yourself with this document and any external guides it points to.
+In order to run this project read following subheadings. In order to work on the project please read the section titled "Working Ethics and Style".
 
 ### Prerequisites
 #### Libraries
- * GLEW
-GLEW can be found here: [GLEW Mainpage](http://glew.sourceforge.net/)
+ * GLEW can be found here: [GLEW Mainpage](http://glew.sourceforge.net/)
 
 ### Running this code
-Follow the guide found in [setup guide](GMlibSetupGuide2018.pdf) to set up your code. After that run the project in QtCreator.
+Follow the [setup guide](GMlibSetupGuide2018.pdf) to set up your project and get it running on your PC. After that, you can run the project in QtCreator.
 
 ## Working Ethics And Style
 ### Cloning project
 Open GIT bash and execute following commands to clone project into your pc.
-```
+```bash
 cd [PATH_TO_DESIRED_PROJECT_LOCATION]
 git clone git@source.coderefinery.org:MormonJesus69420/STE6249-Virtual-Reality-Graphics-And-Animation-Project.git [PROJECT_FOLDER_NAME]
 ```
 
 ### Committing your changes
-After staging your work you are ready to commit your work. Avoid using this way
-of committing work at ***all cost***. Use it only if you have made a really
-small changes to code which can be summed up in less than 50 characters.
-```
+After staging your work you are ready to commit your work. Avoid using this way of committing work at ***all cost***. Use it only if you have made a really small changes to code which can be summed up in less than 50 characters.
+```bash
 git commit -m "[COMMIT_MESSAGE]"
 ```
 For all other cases, which are 99% of cases you will need to run:
-```
+```bash
 git commit
 ```
 When writing a commit message follow these rules:
@@ -72,47 +68,36 @@ See also: #456, #789
 ```
 
 ### Pushing project
-After you have added and committed changes you are ready to push them upstream,
-well actually not. **ALWAYS REBASE BEFORE PUSHING!** You never know if somebody
-has pushed some changes since last time you have rebased your project. To do so
-run following commands:
-```
+After you have added and committed changes you are ready to push them upstream, well actually not. **ALWAYS REBASE BEFORE PUSHING!** You never know if somebody has pushed some changes since last time you have re-based your project. To do so run following commands:
+```bash
 git fetch
 git rebase
 ```
-This will fetch changes from the remote repository and rebase your project based
-on those. **Do not use `pull` or  `fetch` followed by `merge [REMOTE/BRANCH]`**
+This will fetch changes from the remote repository and re-base your project based on those. **Do not use `pull` or  `fetch` followed by `merge [REMOTE/BRANCH]`**
 
 ### Merge conflicts
-It is possible that you will get some merge conflicts when you try to rebase
-your project or push it upstream. If that is the case GIT marks them for you in
-the files. You’ll see sections like this:
-```
+It is possible that you will get some merge conflicts when you try to rebase your project or push it upstream. If that is the case GIT marks them for you in the files. You’ll see sections like this:
+```c++
 <<<<<<< HEAD
 std::cout << "Hello there!" << std::endl;
 =======
 std::cout << "General Kenobi!" << std::endl;
 >>>>>>> REMOTE/BRANCH
 ```
-The first section, `HEAD` is what you have in your version. The second section,
-`REMOTE/BRANCH` is what GIT found in the version you were trying to merge into.  
-You’ll have to decide what the file should contain, and you’ll need to edit it.
-After choosing what to do with these changes you will need to remove the marking
-put in place by GIT, stage and commit those changes.
-```
+The first section, `HEAD` is what you have in your version. The second section, `REMOTE/BRANCH` is what GIT found in the version you were trying to merge into.  
+You’ll have to decide what the file should contain, and you’ll need to edit it. After choosing what to do with these changes you will need to remove the marking put in place by GIT, stage and commit those changes.
+```bash
 git add [FILENAME]
 git commit
 ```
 
 ### Finally pushing your project upstream
-After all these steps you are ready to push your code to remote repository, this
-is simply done by running:
-```
+After all these steps you are ready to push your code to remote repository, this is simply done by running:
+```bash
 git push [REMOTE] [BRANCH]
 ```
-If you have created new branch and want to push it you will need to append `-u`
-before specifying remote, so:
-```
+If you have created new branch and want to push it you will need to append `-u` before specifying remote, so:
+```bash
 git push -u [REMOTE] [BRANCH]
 ```
 
@@ -125,7 +110,7 @@ git push -u [REMOTE] [BRANCH]
 
 ## Acknowledgments
 **Daniele Procida** - *Git commands and cheatsheet* -
-http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/index.html
+[Webshite](http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/index.html)
 
 **Chris Beams** - *How to Write a Git Commit Message* -
-https://chris.beams.io/posts/git-commit/
+[Webshite]](https://chris.beams.io/posts/git-commit/)
