@@ -22,7 +22,6 @@ std::unique_ptr<GuiApplication> GuiApplication::_instance{ nullptr };
 GuiApplication::GuiApplication(int& argc, char** argv)
     : QGuiApplication(argc, argv)
 {
-
   assert(!_instance);
   _instance = std::unique_ptr<GuiApplication>(this);
 
@@ -51,7 +50,6 @@ GuiApplication::GuiApplication(int& argc, char** argv)
 
 GuiApplication::~GuiApplication()
 {
-
   _scenario.stop();
   _window.setPersistentOpenGLContext(false);
   _window.setPersistentSceneGraph(false);
@@ -63,7 +61,6 @@ GuiApplication::~GuiApplication()
 
 void GuiApplication::onSceneGraphInitialized()
 {
-
   qDebug() << "GL context: " << QOpenGLContext::currentContext()->format();
 
   // Init GMlibWrapper
@@ -81,13 +78,11 @@ void GuiApplication::onSceneGraphInitialized()
 
 void GuiApplication::onSceneGraphInvalidated()
 {
-
   _scenario.cleanUp();
 }
 
 void GuiApplication::afterOnSceneGraphInitialized()
 {
-
   // Hidmanager setup
   _hidmanager.setupDefaultHidBindings();
   connect(&_window, &Window::signKeyPressed, &_hidmanager, &StandardHidManager::registerKeyPressEvent);

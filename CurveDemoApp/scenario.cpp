@@ -28,7 +28,6 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
 
 void Scenario::initializeScenario()
 {
-
   // Insert a light
   GMlib::Point<GLfloat, 3> init_light_pos(2.0, 4.0, 10);
   GMlib::PointLight* light = new GMlib::PointLight(GMlib::GMcolor::white(), GMlib::GMcolor::white(),
@@ -87,7 +86,7 @@ void Scenario::initializeScenario()
 
   auto myBSpline = new mybsplinecurve(cp, 3, false);
   myBSpline->toggleDefaultVisualizer();
-  myBSpline->setColor(GMlib::GMcolor::blueViolet());
+  myBSpline->setColor(GMlib::GMcolor::maroon());
   myBSpline->showSelectors(0.5);
   myBSpline->sample(100, 4);
   this->scene()->insert(myBSpline);
@@ -99,7 +98,6 @@ void Scenario::cleanupScenario()
 
 void Scenario::callDefferedGL()
 {
-
   GMlib::Array<const GMlib::SceneObject*> e_obj;
   this->scene()->getEditedObjects(e_obj);
 

@@ -8,7 +8,6 @@ class GLContextSurfaceWrapper;
 #include <core/gmpoint>
 
 namespace GMlib {
-
 class Scene;
 class SceneObject;
 class Camera;

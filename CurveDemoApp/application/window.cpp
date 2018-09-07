@@ -9,7 +9,6 @@
 Window::Window(QWindow* parent)
     : QQuickView(parent)
 {
-
   qmlRegisterType<FboInSGRenderer>("SceneGraphRendering", 1, 0, "Renderer");
 
   setSurfaceType(QSurface::OpenGLSurface);

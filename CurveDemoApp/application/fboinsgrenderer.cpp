@@ -30,7 +30,6 @@ class GMlibInFboRenderer : public QQuickFramebufferObject::Renderer {
 
   void render() override
   {
-
     if (!_rcpair_name.length())
       return;
 
@@ -54,7 +53,6 @@ class GMlibInFboRenderer : public QQuickFramebufferObject::Renderer {
 
   QOpenGLFramebufferObject* createFramebufferObject(const QSize& size) override
   {
-
     _size = size;
 
     QOpenGLFramebufferObjectFormat format;
@@ -65,7 +63,6 @@ class GMlibInFboRenderer : public QQuickFramebufferObject::Renderer {
 
   void synchronize(QQuickFramebufferObject* item) override
   {
-
     _item = static_cast<FboInSGRenderer*>(item);
     _rcpair_name = _item->rcPairName();
   }
@@ -80,7 +77,6 @@ class GMlibInFboRenderer : public QQuickFramebufferObject::Renderer {
 
 FboInSGRenderer::FboInSGRenderer()
 {
-
   setAcceptedMouseButtons(Qt::AllButtons);
   setFocus(true, Qt::ActiveWindowFocusReason);
 
@@ -103,7 +99,6 @@ QQuickFramebufferObject::Renderer* FboInSGRenderer::createRenderer() const { ret
 
 void FboInSGRenderer::onWindowChanged(QQuickWindow* w)
 {
-
   if (!w)
     return;
 
