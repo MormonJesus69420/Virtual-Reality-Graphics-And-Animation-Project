@@ -69,6 +69,7 @@ void Scenario::initializeScenario()
 
   // Top cam
   auto top_rcpair = createRCPair("Top");
+
   top_rcpair.camera->set(init_cam_pos + GMlib::Vector<float, 3>(0.0f, 0.0f, 50.0f), -init_cam_up, init_cam_dir);
   top_rcpair.camera->setCuttingPlanes(1.0f, 8000.0f);
   scene()->insertCamera(top_rcpair.camera.get());
@@ -86,10 +87,25 @@ void Scenario::initializeScenario()
 
   auto myBSpline = new mybsplinecurve(cp, 3, false);
   myBSpline->toggleDefaultVisualizer();
-  myBSpline->setColor(GMlib::GMcolor::maroon());
+  myBSpline->setColor(GMlib::GMcolor::blueViolet()); //This color is better than maroon
   myBSpline->showSelectors(0.5);
   myBSpline->sample(100, 4);
   this->scene()->insert(myBSpline);
+
+  for (float t = 0; t <= myBSpline->getParEnd(); t += 0.05) {
+    auto coord = myBSpline->getPosition(t);
+    auto der1 = myBSpline->getDer1(t);
+    std::cout << coord << std::endl;
+    auto mycircle = new GMlib::PCircle<float>(/*myBSpline->getCurvature(t)/5*/ 0.25);
+
+    mycircle->toggleDefaultVisualizer();
+    mycircle->set({ coord[0], coord[1], coord[2] },
+        { 1, 0, 0 },
+        { der1[0], der1[1], der1[2] });
+    mycircle->setMaterial(GMlib::GMcolor::crimson());
+    mycircle->sample(100, 2);
+    this->scene()->insert(mycircle);
+  }
 }
 
 void Scenario::cleanupScenario()

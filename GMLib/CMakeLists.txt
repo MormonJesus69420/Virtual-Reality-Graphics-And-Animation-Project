@@ -27,7 +27,7 @@ cmake_minimum_required(VERSION 3.4)
 project(GMlib VERSION 0.6.9 LANGUAGES CXX)
 
 # Specify compiler features
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 # Compiler options
 if(MSVC)

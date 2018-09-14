@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.4)
 project(CurveDemoApp VERSION 0.1.0 LANGUAGES CXX)
 
 # Specify compiler features
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 message("CMAKE_CXX_COMPILER_ID: ${CMAKE_CXX_COMPILER_ID}")
 
@@ -115,6 +115,7 @@ set( HDRS
 
   scenario.h
   mybsplinecurve.h
+  myvisualizer.h
   )
 
 set( SRCS
@@ -137,6 +138,7 @@ set( SRCS
 
   scenario.cpp
   mybsplinecurve.cpp
+  myvisualizer.cpp
   )
 
 #########
