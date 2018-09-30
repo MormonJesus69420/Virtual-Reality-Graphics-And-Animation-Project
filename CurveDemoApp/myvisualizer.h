@@ -9,6 +9,8 @@ class PBSplineCurve;
 /*
  * @TODO: Implement this class, obviously
  * */
+namespace MySoothingNamespace {
+
 template <typename T>
 class MyVisualizer {
   public:
@@ -24,3 +26,5 @@ class MyVisualizer {
   GMlib::PBSplineCurve<T>* curve;
   int samples;
 };
+
+} // namespace MySoothingNamespace
