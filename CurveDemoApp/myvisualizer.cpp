@@ -23,6 +23,7 @@ bool MyVisualizer<T>::visualize()
 template <typename T>
 void MyVisualizer<T>::update(double dt)
 {
+  this->localSimulate(dt);
 }
 
 template <typename T>
