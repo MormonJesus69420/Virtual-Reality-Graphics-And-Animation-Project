@@ -100,8 +100,8 @@ void Scenario::initializeScenario()
 
     mycircle->toggleDefaultVisualizer();
     mycircle->set({ coord[0], coord[1], coord[2] },
-        { 1, 0, 0 },
-        { der1[0], der1[1], der1[2] });
+        { der1[0], der1[1], der1[2] },
+        { 1, 0, 0 });
     mycircle->setMaterial(GMlib::GMcolor::crimson());
     mycircle->sample(100, 2);
     this->scene()->insert(mycircle);
