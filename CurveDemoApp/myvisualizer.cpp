@@ -1,6 +1,7 @@
 #include "myvisualizer.h"
 #include "gmParametricsModule"
 
+namespace MySoothingNamespace {
 template <typename T>
 MyVisualizer<T>::MyVisualizer(GMlib::PBSplineCurve<T>* c, int sampleSize)
 {
@@ -31,3 +32,5 @@ void MyVisualizer<T>::localSimulate(double dt)
 {
   //TODO: Implement
 }
+
+}// namespace MySoothingNamespace
