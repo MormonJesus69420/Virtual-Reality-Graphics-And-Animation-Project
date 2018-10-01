@@ -3,6 +3,7 @@
 
 #include "mybsplinecurve.h"
 #include "scenario.h"
+#include "myvisualizer.h"
 
 //// hidmanager
 //#include "hidmanager/defaulthidmanager.h"
@@ -92,20 +93,8 @@ void Scenario::initializeScenario()
   myBSpline->sample(100, 4);
   this->scene()->insert(myBSpline);
 
-  for (float t = 0; t <= myBSpline->getParEnd(); t += 0.05) {
-    auto coord = myBSpline->getPosition(t);
-    auto der1 = myBSpline->getDer1(t);
-    std::cout << coord << std::endl;
-    auto mycircle = new GMlib::PCircle<float>(/*myBSpline->getCurvature(t)/5*/ 0.25);
-
-    mycircle->toggleDefaultVisualizer();
-    mycircle->set({ coord[0], coord[1], coord[2] },
-        { der1[0], der1[1], der1[2] },
-        { 1, 0, 0 });
-    mycircle->setMaterial(GMlib::GMcolor::crimson());
-    mycircle->sample(100, 2);
-    this->scene()->insert(mycircle);
-  }
+  auto* vis = new MySoothingNamespace::MyVisualizer(myBSpline, 1);
+  vis->visualize();
 }
 
 void Scenario::cleanupScenario()

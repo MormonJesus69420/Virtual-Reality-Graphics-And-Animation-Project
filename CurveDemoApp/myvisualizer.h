@@ -11,10 +11,9 @@ class PBSplineCurve;
  * */
 namespace MySoothingNamespace {
 
-template <typename T>
 class MyVisualizer {
   public:
-  MyVisualizer(GMlib::PBSplineCurve<T>* c, int sampleSize);
+  MyVisualizer(GMlib::PBSplineCurve<float>* c, int sampleSize);
   bool visualize();
   void update(double dt);
 
@@ -23,7 +22,7 @@ class MyVisualizer {
 
   private:
   GMlibWrapper* wrapper = nullptr;
-  GMlib::PBSplineCurve<T>* curve;
+  GMlib::PBSplineCurve<float>* curve;
   int samples;
 };
 
