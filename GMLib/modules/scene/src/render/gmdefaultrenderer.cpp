@@ -443,6 +443,11 @@ namespace GMlib {
     return _rbo_color;
   }
 
+  const GL::Texture &DefaultRenderer::getDepthTexture() const
+  {
+    return _rbo_depth;
+  }
+
   const GL::Texture& DefaultRenderer::getSelectTexture() const {
 
     return _rbo_select;

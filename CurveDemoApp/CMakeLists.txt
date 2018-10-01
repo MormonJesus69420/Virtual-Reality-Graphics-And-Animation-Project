@@ -113,6 +113,14 @@ set( HDRS
   application/window.h
   application/utils.h
 
+  volumeshite/gmcfdcell.h
+  volumeshite/gmpfinitedifferencevolume.h
+  volumeshite/gmpvolumedefaultvisualizer.h
+  volumeshite/gmpvolume.h
+  volumeshite/gmpvolumevisualizer.h
+  volumeshite/terrainvolume.h
+  volumeshite/transferfunction.h
+
   scenario.h
   mybsplinecurve.h
   myvisualizer.h
@@ -136,6 +144,14 @@ set( SRCS
   application/window.cpp
 
   application/main.cpp
+
+  volumeshite/gmcfdcell.c
+  volumeshite/gmpfinitedifferencevolume.c
+  volumeshite/gmpvolume.c
+  volumeshite/gmpvolumedefaultvisualizer.c
+  volumeshite/gmpvolumevisualizer.c
+  volumeshite/terrainvolume.cpp
+  volumeshite/transferfunction.cpp
 
   scenario.cpp
   mybsplinecurve.cpp

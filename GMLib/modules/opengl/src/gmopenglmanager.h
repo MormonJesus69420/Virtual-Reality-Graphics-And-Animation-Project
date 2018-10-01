@@ -85,6 +85,7 @@ namespace GL {
     static void                   initBlinnPhongProg();
     static void                   initDirectionalLightingProg();
     static void                   initColorProg();
+    static void                   initVolumeProg();
 
 //    // "PCurve: Contours" program
 //    static Program                _prog_pcurve_contours;

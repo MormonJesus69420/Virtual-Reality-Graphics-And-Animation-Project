@@ -60,6 +60,7 @@ namespace GMlib {
     virtual ~DefaultRenderer();
 
     const GL::Texture&      getRenderTexture() const;
+    const GL::Texture&      getDepthTexture() const;
     const GL::Texture&      getSelectTexture() const;
 
     const Color&            getClearColor() const;

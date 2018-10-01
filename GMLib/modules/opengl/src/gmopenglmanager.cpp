@@ -175,10 +175,11 @@ namespace GL {
     initBlinnPhongProg();
     initDirectionalLightingProg();
     initColorProg();
+    initVolumeProg();
+    // initPCurveContoursProg();
+    // initPSurfContours();
 
 
-//    initPCurveContoursProg();
-    //    initPSurfContours();
   }
 
   void OpenGLManager::purgeAllShadersAndPrograms() {
@@ -479,7 +480,305 @@ namespace GL {
     linkPersistentProgram(prog);
   }
 
+  void OpenGLManager::initVolumeProg() {
+    std::string vs_src(
+                 "#version 150 compatibility\n"
+                 "\n"
+                 "in vec3 in_vertex;\n"
+                 "in vec3 in_tex;\n"
+                 "\n"
+                 "uniform mat4 u_mvpmat;\n"
+                 "uniform mat4 u_mmat;"
+                 "uniform mat4 u_bias;"
+                 "\n"
+                 "out vec3 textureCoord;\n"
+                 "out vec3 frag_Position;\n"
+                 "out vec4 depth_map_pos;\n"
+                 "\n"
+                 "void main(void)\n"
+                 "{\n"
+                 "\n"
+                 "vec4 pos  = u_mvpmat * vec4(in_vertex, 1.0);\n"
+                 "textureCoord = in_tex;\n"
+                 "frag_Position = (u_mmat * vec4(in_vertex, 1.0)).xyz;\n"
+                 "depth_map_pos = u_bias * pos;"
+                 "gl_Position = pos;"
+                 "\n"
+                 "}\n"
+                 );
 
+     std::string func_lut(
+                 "vec4\n"
+                 "lut(vec3 pos) {\n"
+                 "\n"
+                 "  return texture(samplerTransferFunction, texture(samplerDataVolume,pos).x ).rgba;\n"
+                 "}\n"
+                 "\n"
+
+                 "vec4\n"
+                 "lut2(vec3 pos) {\n"
+                 "\n"
+                 "  float color = texture(samplerDataVolume,pos).r;\n"
+                 "  float a =  texture(samplerTransferFunction, color ).a;\n"
+                 "  color = (1-color)*250;"
+                 "  return hsv_to_rgb(color, 1.0,1.0,a ); "
+                 "}\n"
+                 "\n"
+
+                 "vec4\n"
+                 "lut3(vec3 pos) {\n"
+                 "\n"
+                 "  vec4 color = vec4(0.0,0.0,0.0,0.0);"
+                 "  color.r =  texture(samplerTransferFunction, texture(samplerDataVolume,pos).r ).r;\n"
+                 "  color.g =  texture(samplerTransferFunction, texture(samplerDataVolume,pos).g ).g;\n"
+                 "  color.b =  texture(samplerTransferFunction, texture(samplerDataVolume,pos).b ).b;\n"
+                 "  color.a =  texture(samplerTransferFunction, texture(samplerDataVolume,pos).a ).a;\n"
+                 "  return color;"
+                 "}\n"
+                 "\n"
+                 );
+
+     ///http://wiki.beyondunreal.com/HSV-RGB_Conversion
+     std::string func_hsvtorgb(
+                 "vec4\n"
+                 "hsv_to_rgb(float h, float s, float v, float a){\n"
+                 "float min,chroma,hdash,x;\n"
+                 "vec4 rgba = vec4 (0.0, 0.0 ,0.0, a);"
+                 "chroma = s * v;"
+                 "hdash = h/60;\n"
+                 "int i = int(hdash);\n"
+                 "x = chroma * ( 1.0 - abs( ( mod(hdash,2) -1.0)));"
+                 "if( i == 0 ){ rgba = vec4(chroma,x,0,a);}\n"
+                 "else if( i == 1 ){ rgba = vec4(x,chroma,0,a);}\n"
+                 "else if( i == 2 ){ rgba = vec4(0,chroma,x,a);}\n"
+                 "else if( i == 3 ){ rgba = vec4(0,x,chroma,a);}\n"
+                 "else if( i == 4 ){ rgba = vec4(x,0,chroma,a);}\n"
+                 "else { rgba = vec4(chroma,0,x,a);}\n"
+                 "min = v - chroma;\n"
+                 "rgba.r += min;\n"
+                 "rgba.g += min;\n"
+                 "rgba.b += min;\n"
+                 "return rgba;"
+                 "}\n"
+
+                 );
+
+     std::string func_normal_at(
+                 "vec3\n"
+                 "normal_at(vec3 pos) {\n"
+                 "\n"
+                 "vec3 p = pos;\n"
+                 "float dx = ( lut( pos + vec3(0.01,0.0,0.0) ) ).a - lut( pos - vec3( 0.01,0.0,0.0 ) ).a/2;\n"
+                 "float dy = ( lut( pos + vec3(0.0,0.01,0.0) ) ).a - lut( pos - vec3( 0.0,0.01,0.0 ) ).a/2;\n"
+                 "float dz = ( lut( pos + vec3(0.0,0.0,0.01) ) ).a - lut( pos - vec3( 0.0,0.0,0.01 ) ).a/2;\n"
+                 "return vec3( dx, dy, dz);\n"
+                 "}\n"
+                 "\n"
+
+
+                 "vec3\n"
+                 "normal_at2(vec3 pos) {\n"
+                 "\n"
+                 "vec3 p = pos;\n"
+                 "float dx = ( lut2( pos + vec3(0.01,0.0,0.0) ) ).a - lut2( pos - vec3( 0.01,0.0,0.0 ) ).a/2;\n"
+                 "float dy = ( lut2( pos + vec3(0.0,0.01,0.0) ) ).a - lut2( pos - vec3( 0.0,0.01,0.0 ) ).a/2;\n"
+                 "float dz = ( lut2( pos + vec3(0.0,0.0,0.01) ) ).a - lut2( pos - vec3( 0.0,0.0,0.01 ) ).a/2;\n"
+                 "return vec3( dx, dy, dz);\n"
+                 "}\n"
+                 "\n"
+
+
+                 "vec3\n"
+                 "normal_at3(vec3 pos) {\n"
+                 "\n"
+                 "vec3 p = pos;\n"
+                 "float dx = ( lut3( pos + vec3(0.01,0.0,0.0) ) ).a - lut3( pos - vec3( 0.01,0.0,0.0 ) ).a/2;\n"
+                 "float dy = ( lut3( pos + vec3(0.0,0.01,0.0) ) ).a - lut3( pos - vec3( 0.0,0.01,0.0 ) ).a/2;\n"
+                 "float dz = ( lut3( pos + vec3(0.0,0.0,0.01) ) ).a - lut3( pos - vec3( 0.0,0.0,0.01 ) ).a/2;\n"
+                 "return vec3( dx, dy, dz);\n"
+                 "}\n"
+                 "\n"
+
+                 );
+
+
+     std::string cube_top(
+
+                 "\n"
+                 "  in vec3 textureCoord;\n"
+                 "  in vec3 frag_Position;\n"
+                 "  in vec4 depth_map_pos;\n"
+                 "\n"
+                 "  uniform sampler3D samplerDataVolume;\n"
+                 "  uniform sampler1D samplerTransferFunction;\n"
+                 "  uniform sampler2D samplerDepthMap;"
+                 "\n"
+                 "  uniform vec3 camera;\n"
+                 "  uniform float u_stepsize;\n"
+                 "  uniform mat4 u_mvpmat;"
+                 "  uniform mat4 u_bias;"
+                 "  uniform float u_size;"
+                 "\n"
+                 "  uniform bool a_mip;"
+                 "  uniform bool color_mip;"
+                 "  uniform bool depth_termination;"
+                 "  uniform bool depth_start;"
+                 "  uniform bool black_white;"
+                 "  uniform bool is_sliced;"
+                 //"  uniform vec3 slice_vec;"
+                 "  uniform float sX;"
+                 "  uniform float sY;"
+                 "  uniform float sZ;"
+                 "  uniform int transfer_func_type;"
+                 "\n"
+                 "  out vec4 out_Color;\n"
+                 "\n"
+                 );
+
+     std::string cube_depth_fs;
+     cube_depth_fs.append( glslDefHeader150CoreSource() );
+     cube_depth_fs.append( cube_top );
+     cube_depth_fs.append( func_hsvtorgb);
+     cube_depth_fs.append( func_lut );
+     cube_depth_fs.append( func_normal_at );
+     cube_depth_fs.append(
+
+                 "  void main(void){\n"
+                 "\n"
+                 "    vec4 value;\n"
+                 "    vec4 src;\n"
+                 "    float scalar;\n"
+                 "    vec3 slice_vec = vec3(sX,sY,sZ);"
+                 "\n"
+                 "    //initialize accumulated color and opacity \n"
+                 "    vec4 dst = vec4(0.0, 0.0, 0.0, 0.0);\n"
+                 "\n"
+                 "    //Determine volume entry position \n"
+                 "    vec3 position = textureCoord;\n"
+                 "    vec3 raylength = vec3(0.0, 0.0, 0.0);"
+                 "\n"
+                 "    vec3 coord = depth_map_pos.xyz/depth_map_pos.w; "
+                 "    float depth = 0.0f;\n"
+                 "    vec4 color = vec4(0.0,1.0,0.0,0.5);"
+                 "\n"
+                 "\n"
+                 "    //Compute ray direction \n"
+                 "    vec3 direction = frag_Position - camera;\n"
+                 "    direction = normalize(direction);\n"
+                 "    float adaptive = 0.02;\n"
+                 "    bool outside = true;\n"
+                 "\n"
+                 "\n"
+                 "   while(true){\n"
+                 "\n"
+                 "\n"
+                 "      if(transfer_func_type == 1){\n"
+                 "        src = lut( position );\n"
+                 "      }\n"
+                 "      else if(transfer_func_type == 2){\n"
+                 "        src = lut2( position );\n"
+                 "      }\n"
+                 "      else if(transfer_func_type == 3){\n"
+                 "        src = lut3( position );\n"
+                 "      }\n"
+                 "\n"
+                 "\n"
+                 "      if( clamp( position, 0.0, 1.0 ) != position ) {\n"
+                 "        break;\n"
+                 "      }\n"
+                 "\n"
+                 "      if(depth_termination || depth_start){"
+                 "        vec4 depth_vec = u_bias  *u_mvpmat * vec4(abs((position.xyz)*u_size), 1.0);"
+                 "        float depth2 = (depth_vec.z / depth_vec.w); "
+                 "        if(depth2 > depth){"
+                 "          color  = vec4(1,0,0,1);"
+                 "          if(depth_termination){ break;}"
+                 "        }\n"
+                 "        else if(depth_start){"
+                 "        position += direction * adaptive;"
+                 "          continue;}"
+                 "      };"
+                 "\n"
+                 "      if( src.a < 0.01 && outside ) {\n"
+                 "        position += direction * adaptive;\n"
+                 "        continue;\n"
+                 "      }\n"
+                 "\n"
+                 "      if(is_sliced){"
+                 "        if( position.x < slice_vec.x) {\n"
+                 "          position += direction * adaptive;\n"
+                 "          continue;\n"
+                 "        }\n"
+                 "        if( position.y < slice_vec.y) {\n"
+                 "          position += direction * adaptive;\n"
+                 "          continue;\n"
+                 "        }\n"
+                 "        if( position.z < slice_vec.z) {\n"
+                 "          position += direction * adaptive;\n"
+                 "          continue;\n"
+                 "        }\n"
+                 "      }\n"
+                 "\n"
+                 "      else if ( outside ){\n"
+                 "        outside = false;"
+                 "       // position -= direction * adaptive * 0.5;\n"
+                 "        adaptive *= 0.5;\n"
+                 "        continue;\n"
+                 "      };\n"
+                 "\n"
+                 "\n"
+                 "      float lf;"
+                 "      if(!color_mip || !a_mip){\n"
+                 "      vec3 n;\n"
+                 "        if(transfer_func_type == 1){"
+                 "          n = normal_at(position);\n"
+                 "        }\n"
+                 "        else if(transfer_func_type == 2){"
+                 "          n = normal_at2(position);\n"
+                 "        }\n"
+                 "        else if(transfer_func_type == 3){"
+                 "          n = normal_at3(position);\n"
+                 "        }\n"
+                 "        lf = clamp( dot(n, vec3(1,1,1) ), 0.5, 1.0 );\n"
+                 "      }"
+                 "\n"
+                 //                "      //Front-to-back compositing \n"
+                 "      if(!color_mip && !black_white){\n"
+                 "        dst.rgb += (1.0 - dst.a) * src.rgb * adaptive * 255.0 * src.a * lf;\n"
+                 "      }\n"
+                 "      if(!a_mip){\n"
+                 "        dst.a += src.a * adaptive * 255 * lf;\n"
+                 "      }\n"
+                 "      if(color_mip && !black_white){\n"
+                 "        dst.rgb = max(dst.rgb, src.rgb);\n"
+                 "      }\n"
+                 "      if(a_mip){\n"
+                 "        dst.a = max(dst.a, src.a);\n"
+                 "      }\n"
+                 "\n"
+                 "      if( dst.a > 1.0 ) break;\n"
+                 "\n"
+                 "\n"
+                 "      position += direction * adaptive\n;"
+                 "\n"
+                 "    }\n"
+                 "\n"
+                 "    out_Color = dst;\n;"
+                 "\n}"
+                 );
+
+     VertexShader vs;
+     createAndCompilePersistenShader(vs,"cube_vs",vs_src);
+
+     FragmentShader fs;
+     createAndCompilePersistenShader(fs,"cube_fs",cube_depth_fs);
+
+     Program prog;
+     prog.create("pvolume_cube");
+     prog.attachShader(vs);
+     prog.attachShader(fs);
+     linkPersistentProgram(prog);
+  }
 
 
 //  Program         OpenGLManager::_prog_pcurve_contours;
