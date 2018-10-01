@@ -4,7 +4,10 @@
 namespace GMlib {
 template <typename T>
 class PBSplineCurve;
-}
+
+template <typename T>
+class PCircle;
+} // namespace GMlib
 
 /*
  * @TODO: Implement this class, obviously
@@ -24,6 +27,7 @@ class MyVisualizer {
   GMlibWrapper* wrapper = nullptr;
   GMlib::PBSplineCurve<float>* curve;
   int samples;
+  GMlib::Array<GMlib::PCircle<float>*> circles;
 };
 
 } // namespace MySoothingNamespace
