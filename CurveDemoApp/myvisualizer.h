@@ -1,6 +1,6 @@
 #include "application/gmlibwrapper.h"
 
-//Forward declaration(s)
+// Forward declarations
 namespace GMlib {
 template <typename T>
 class PBSplineCurve;
@@ -11,7 +11,7 @@ class PCircle;
 
 /*
  * @TODO: Implement this class, obviously
- * */
+ */
 namespace MySoothingNamespace {
 
 class MyVisualizer {
@@ -24,10 +24,10 @@ class MyVisualizer {
   void localSimulate(double dt);
 
   private:
-  GMlibWrapper* wrapper = nullptr;
-  GMlib::PBSplineCurve<float>* curve;
-  int samples;
-  GMlib::Array<GMlib::PCircle<float>*> circles;
+  GMlib::Array<GMlib::PCircle<float>*> _circles;
+  GMlib::PBSplineCurve<float>* _curve;
+  GMlibWrapper* _wrapper = nullptr;
+  int _samples;
 };
 
 } // namespace MySoothingNamespace

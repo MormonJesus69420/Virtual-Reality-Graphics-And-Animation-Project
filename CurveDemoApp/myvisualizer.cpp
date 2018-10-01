@@ -4,33 +4,34 @@
 namespace MySoothingNamespace {
 MyVisualizer::MyVisualizer(GMlib::PBSplineCurve<float>* c, int sampleSize)
 {
-
-  wrapper = &(GMlibWrapper::instance());
-  if (wrapper == nullptr) {
-    //If this happens, we tried to get the wrapper too early
+  _wrapper = &(GMlibWrapper::instance());
+  if (_wrapper == nullptr) { // If this happens, we tried to get the wrapper too early
     throw std::runtime_error("Wrapper should not be nullptr, check if the visualizer was constructed too early");
   }
-  this->curve = c;
-  this->samples = sampleSize;
-  this->circles = GMlib::Array<GMlib::PCircle<float>*>();
+
+  this->_circles = GMlib::Array<GMlib::PCircle<float>*>();
+  this->_curve = c;
+  this->_samples = sampleSize;
 }
 
 bool MyVisualizer::visualize()
 {
   try {
-    for (float t = 0; t <= this->curve->getParEnd(); t += 0.05) {
-      auto coord = this->curve->getPosition(t);
-      auto der1 = this->curve->getDer1(t);
-      std::cout << coord << std::endl;
-      auto mycircle = new GMlib::PCircle<float>(/*myBSpline->getCurvature(t)/5*/ 0.25);
+    for (float t = 0; t <= this->_curve->getParEnd(); t += 0.05) {
+      auto coord = this->_curve->getPosition(t);
+      auto der1 = this->_curve->getDer1(t);
+
+      auto mycircle = new GMlib::PCircle<float>(0.25);
+
       mycircle->toggleDefaultVisualizer();
       mycircle->set({ coord[0], coord[1], coord[2] },
-          { der1[0], der1[1], der1[2] },
-          { 1, 0, 0 });
+                    {  der1[0],  der1[1],  der1[2] },
+                    {        1,        0,        0 });
+
       mycircle->setMaterial(GMlib::GMcolor::crimson());
       mycircle->sample(100, 2);
-      this->circles.insert(mycircle);
-      this->wrapper->scene()->insert(mycircle);
+      this->_circles.insert(mycircle);
+      this->_wrapper->scene()->insert(mycircle);
     }
     return true;
   }
@@ -39,7 +40,6 @@ bool MyVisualizer::visualize()
     return false;
   }
 
-  //TODO: Visualize, adapt, overcome
 }
 
 void MyVisualizer::update(double dt)
