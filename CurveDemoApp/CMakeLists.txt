@@ -116,6 +116,7 @@ set( HDRS
   scenario.h
   mybsplinecurve.h
   myvisualizer.h
+  myviscircle.h
   )
 
 set( SRCS

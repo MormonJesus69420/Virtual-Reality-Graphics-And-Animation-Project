@@ -5,14 +5,14 @@ namespace GMlib {
 template <typename T>
 class PBSplineCurve;
 
-template <typename T>
-class PCircle;
 } // namespace GMlib
 
 /*
  * @TODO: Implement this class, obviously
  */
 namespace MySoothingNamespace {
+template <typename T>
+class MyVisualizerCircle;
 
 class MyVisualizer {
   public:
@@ -24,10 +24,12 @@ class MyVisualizer {
   void localSimulate(double dt);
 
   private:
-  GMlib::Array<GMlib::PCircle<float>*> _circles;
+  std::vector<MyVisualizerCircle<float>*> _circles;
   GMlib::PBSplineCurve<float>* _curve;
   GMlibWrapper* _wrapper = nullptr;
   int _samples;
+
+  void moveCircleToCurve(MyVisualizerCircle<float>* circle);
 };
 
 } // namespace MySoothingNamespace
