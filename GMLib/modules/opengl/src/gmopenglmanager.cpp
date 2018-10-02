@@ -763,6 +763,7 @@ namespace GL {
                  "\n"
                  "    }\n"
                  "\n"
+//                 "    dst = vec4(1,0,0,1); \n"
                  "    out_Color = dst;\n;"
                  "\n}"
                  );

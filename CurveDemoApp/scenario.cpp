@@ -99,9 +99,9 @@ void Scenario::initializeScenario()
 //  auto* vis = new MySoothingNamespace::MyVisualizer(myBSpline, 1);
 //  vis->visualize();
   auto tv = new TerrainVolume(GMlib::Vector<int,3>(30,30,30));
-  auto pvdv = new GMlib::PVolumeDefaultVisualizer<float,3>();
+  auto pvdv = new GMlib::PVolumeDefaultVisualizer<float,3>();/*
   pvdv->setSlicingVector(0.5,0,0.0);
-  pvdv->setShaders(false,false,false,false,false,true);
+  pvdv->setShaders(false,false,false,false,false,true);*/
   pvdv->updateTransferValues(false);
   tv->insertVisualizer(pvdv);
   tv->replot(30,30,30,0,0,0);
