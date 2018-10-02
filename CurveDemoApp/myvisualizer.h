@@ -30,6 +30,8 @@ class MyVisualizer {
   int _samples;
 
   void moveCircleToCurve(MyVisualizerCircle<float>* circle);
+  float calculateCurvature(float t);
+  float calculateTorsion(float t);
 };
 
 } // namespace MySoothingNamespace
