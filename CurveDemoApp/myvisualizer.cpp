@@ -25,7 +25,7 @@ bool MyVisualizer::visualize()
   try {
     for (float t = 0; t <= this->_curve->getParEnd(); t += 0.05) {
 
-      float kurwa = this->calculateCurvature(t);
+      float kurwa = this->_curve->getCurvature(t);
       auto* mycircle = new MyVisualizerCircle<float>(t, kurwa);
 
       mycircle->toggleDefaultVisualizer();
@@ -69,16 +69,6 @@ void MyVisualizer::moveCircleToCurve(MyVisualizerCircle<float>* circle)
                 {        1,        0,        0 });
 }
 
-float MyVisualizer::calculateCurvature(float t)
-{
-  GMVec3 der1 = this->_curve->getDer1(t);
-  GMVec3 der2 = this->_curve->getDer2(t);
-
-  float divisor = (der1 ^ der2).getLength();
-  double dividend = std::pow(der1.getLength(), 3);
-
-  return divisor / float(dividend);
-}
 
 float MyVisualizer::calculateTorsion(float t)
 {
