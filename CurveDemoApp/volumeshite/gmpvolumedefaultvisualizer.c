@@ -20,7 +20,7 @@ PVolumeDefaultVisualizer<T, n>::PVolumeDefaultVisualizer()
 
   bool found = _prog.acquire("pvolume_cube"); //    this->setRenderProgram( GL::GLProgram("cube_depth_test") );
   std::cout << "Found shader prog pvolume_cube: " << found << std::endl;
-  //    std::cout << "Found scene_depth_map: " << deptex << std::endl;
+//  std::cout << "Found scene_depth_map: " << deptex << std::endl;
   std::cout << "Found std_rep_cube: " << repcub << std::endl;
   std::cout << "Found std_rep_cube_indices: " << repcubind << std::endl;
   std::cout << "Found std_rep_frame_indices: " << repcubframeind << std::endl;
