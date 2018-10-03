@@ -142,8 +142,8 @@ set( SRCS
   application/gmlibwrapper.cpp
   application/guiapplication.cpp
   application/window.cpp
-
   application/main.cpp
+
   volumeshite/terrainvolume.cpp
   volumeshite/transferfunction.cpp
 

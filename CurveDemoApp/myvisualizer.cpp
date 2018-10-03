@@ -3,7 +3,7 @@
 #include "myviscircle.h"
 
 //stl
-#include "cmath"
+#include <math.h>
 
 using GMVec3 = GMlib::Vector<float, 3>;
 
@@ -29,6 +29,7 @@ bool MyVisualizer::visualize()
     for (auto& param : _params) {
       auto* mycircle = new MyVisualizerCircle<float>(param.t, param.curvature * 0.05f);
 
+      std::cout << param.torsion << std::endl;
       param.circle = mycircle;
       moveCircleToCurve(param);
 
@@ -85,15 +86,15 @@ GMlib::Color MyVisualizer::calculateColor(const MyVisualizer::CurveParams& p)
 void MyVisualizer::updateParam(MyVisualizer::CurveParams& p)
 {
   float t = p.t;
-  p.curvature = this->_curve->getCurvature(t);
+  p.curvature = this->calculateCurvature(t);
   p.torsion = this->calculateTorsion(t);
   p.der1 = this->_curve->getDer1(t);
 
-  p.circle->setRadius(p.curvature);
+  p.circle->setRadius(p.curvature * 0.05f);
   this->moveCircleToCurve(p);
 }
 
-void MyVisualizer::localSimulate(double dt[[maybe_unused]])
+void MyVisualizer::localSimulate(double dt [[maybe_unused]])
 {
   for (auto& param : this->_params)
     moveCircleToCurve(param);
@@ -144,7 +145,7 @@ void MyVisualizer::setupParams()
 
 void MyVisualizer::setupParam(const float t)
 {
-  float kurwa = this->_curve->getCurvature(t);
+  float kurwa = this->calculateCurvature(t);
   float torsion = this->calculateTorsion(t);
   GMVec3 der1 = this->_curve->getDer1(t);
   GMVec3 pos = this->_curve->getPosition(t);
@@ -171,12 +172,23 @@ float MyVisualizer::calculateTorsion(const float t) const
 {
   GMVec3 der1 = this->_curve->getDer1(t);
   GMVec3 der2 = this->_curve->getDer2(t);
-  GMVec3 der3 = this->_curve->getDer2(t);
+  GMVec3 der3 = this->_curve->getDer3(t);
 
-  float divisor = (der1 ^ der2) * der3;
-  double dividend = std::pow((der1 ^ der2).getLength(), 2);
+  float dividend = (der1 ^ der2) * der3;
+  float divisor = powf((der1 ^ der2).getLength(), 2);
 
-  return divisor / float(dividend);
+  return dividend / divisor;
+}
+
+float MyVisualizer::calculateCurvature(const float t) const
+{
+  GMVec3 der1 = this->_curve->getDer1(t);
+  GMVec3 der2 = this->_curve->getDer2(t);
+
+  float dividend = (der1 ^ der2).getLength();
+  float divisor = powf(der1.getLength(), 3);
+
+  return dividend / divisor;
 }
 
 float MyVisualizer::findGreatestCurvature() const
