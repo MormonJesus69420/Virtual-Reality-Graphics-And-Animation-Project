@@ -2,8 +2,8 @@
 #include <iostream>
 
 #include "mybsplinecurve.h"
-#include "scenario.h"
 #include "myvisualizer.h"
+#include "scenario.h"
 
 //// hidmanager
 //#include "hidmanager/defaulthidmanager.h"
@@ -19,6 +19,8 @@
 
 //Alexander sin kode
 #include "volumeshite/terrainvolume.h"
+
+namespace MySoothingNamespace {
 
 template <typename T>
 inline std::ostream& operator<<(std::ostream& out, const std::vector<T>& v)
@@ -79,34 +81,34 @@ void Scenario::initializeScenario()
   scene()->insertCamera(top_rcpair.camera.get());
   top_rcpair.renderer->reshape(GMlib::Vector<int, 2>(init_viewport_size, init_viewport_size));
 
-//  GMlib::DVector<GMlib::Vector<float, 3>> cp(8);
-//  cp[0] = GMlib::Vector<float, 3>(0, 0, 0);
-//  cp[1] = GMlib::Vector<float, 3>(1, 1, 0);
-//  cp[2] = GMlib::Vector<float, 3>(2, 0, 2);
-//  cp[3] = GMlib::Vector<float, 3>(3, 2, 0);
-//  cp[4] = GMlib::Vector<float, 3>(4, 1, 0);
-//  cp[5] = GMlib::Vector<float, 3>(5, 1, -2);
-//  cp[6] = GMlib::Vector<float, 3>(6, 2, 0);
-//  cp[7] = GMlib::Vector<float, 3>(7, 0, 0);
+  GMlib::DVector<GMlib::Vector<float, 3>> cp(8);
+  cp[0] = GMlib::Vector<float, 3>(0, 0, 0);
+  cp[1] = GMlib::Vector<float, 3>(1, 1, 0);
+  cp[2] = GMlib::Vector<float, 3>(2, 0, 2);
+  cp[3] = GMlib::Vector<float, 3>(3, 2, 0);
+  cp[4] = GMlib::Vector<float, 3>(4, 1, 0);
+  cp[5] = GMlib::Vector<float, 3>(5, 1, -2);
+  cp[6] = GMlib::Vector<float, 3>(6, 2, 0);
+  cp[7] = GMlib::Vector<float, 3>(7, 0, 0);
 
-//  auto myBSpline = new mybsplinecurve(cp, 3, false);
-//  myBSpline->toggleDefaultVisualizer();
-//  myBSpline->setColor(GMlib::GMcolor::blueViolet()); //This color is better than maroon
-//  myBSpline->showSelectors(0.5);
-//  myBSpline->sample(100, 4);
-//  this->scene()->insert(myBSpline);
+  auto myBSpline = new mybsplinecurve(cp, 3, false);
+  myBSpline->toggleDefaultVisualizer();
+  myBSpline->setColor(GMlib::GMcolor::blueViolet()); //This color is better than maroon
+  myBSpline->showSelectors(0.5);
+  myBSpline->sample(100, 4);
+  this->scene()->insert(myBSpline);
 
-//  auto* vis = new MySoothingNamespace::MyVisualizer(myBSpline, 1);
-//  vis->visualize();
-  auto tv = new TerrainVolume(GMlib::Vector<int,3>(30,30,30));
-  auto pvdv = new GMlib::PVolumeDefaultVisualizer<float,3>();/*
-  pvdv->setSlicingVector(0.5,0,0.0);
-  pvdv->setShaders(false,false,false,false,false,true);*/
-  pvdv->updateTransferValues(false);
-  tv->insertVisualizer(pvdv);
-  tv->replot(30,30,30,0,0,0);
-  this->scene()->insert(tv);
-  scene()->getCameras()[0]->lock(tv);
+  auto* vis = new MySoothingNamespace::MyVisualizer(myBSpline, 1);
+  vis->visualize();
+//  auto tv = new TerrainVolume(GMlib::Vector<int,3>(30,30,30));
+//  auto pvdv = new GMlib::PVolumeDefaultVisualizer<float,3>();/*
+//  pvdv->setSlicingVector(0.5,0,0.0);
+//  pvdv->setShaders(false,false,false,false,false,true);*/
+//  pvdv->updateTransferValues(false);
+//  tv->insertVisualizer(pvdv);
+//  tv->replot(30,30,30,0,0,0);
+//  this->scene()->insert(tv);
+//  scene()->getCameras()[0]->lock(tv);
 }
 
 void Scenario::cleanupScenario()
@@ -122,3 +124,5 @@ void Scenario::callDefferedGL()
     if (e_obj(i)->isVisible())
       e_obj(i)->replot();
 }
+
+} // namespace MySoothingNamespace

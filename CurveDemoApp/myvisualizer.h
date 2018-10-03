@@ -1,27 +1,27 @@
 #include "application/gmlibwrapper.h"
+#include <math.h>
 
 // Forward declarations
 namespace GMlib {
 template <typename T>
 class PBSplineCurve;
+class SceneObject;
 
 } // namespace GMlib
 
-/*
- * @TODO: Implement this class, obviously
- */
 namespace MySoothingNamespace {
+
 template <typename T>
 class MyVisualizerCircle;
 
-class MyVisualizer {
+class MyVisualizer { //: public GMlib::SceneObject {
   public:
   MyVisualizer(GMlib::PBSplineCurve<float>* c, int sampleSize);
   bool visualize();
   void update(double dt);
 
   protected:
-  void localSimulate(double dt);
+  void localSimulate(double dt); //override;
 
   private:
   std::vector<MyVisualizerCircle<float>*> _circles;

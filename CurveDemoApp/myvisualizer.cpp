@@ -8,6 +8,7 @@
 using GMVec3 = GMlib::Vector<float, 3>;
 
 namespace MySoothingNamespace {
+
 MyVisualizer::MyVisualizer(GMlib::PBSplineCurve<float>* c, int sampleSize)
 {
   _wrapper = &(GMlibWrapper::instance());
@@ -23,10 +24,10 @@ MyVisualizer::MyVisualizer(GMlib::PBSplineCurve<float>* c, int sampleSize)
 bool MyVisualizer::visualize()
 {
   try {
-    for (float t = 0; t <= this->_curve->getParEnd(); t += 0.05) {
+    for (float t = 0; t <= this->_curve->getParEnd(); t += 0.01) {
 
       float kurwa = this->_curve->getCurvature(t);
-      auto* mycircle = new MyVisualizerCircle<float>(t, kurwa);
+      auto* mycircle = new MyVisualizerCircle<float>(t, kurwa* 0.05);
 
       mycircle->toggleDefaultVisualizer();
       moveCircleToCurve(mycircle);
@@ -54,7 +55,6 @@ void MyVisualizer::localSimulate(double dt)
   for (auto* circle : this->_circles) {
     moveCircleToCurve(circle);
   }
-  //TODO: Implement
 }
 
 void MyVisualizer::moveCircleToCurve(MyVisualizerCircle<float>* circle)
@@ -64,11 +64,10 @@ void MyVisualizer::moveCircleToCurve(MyVisualizerCircle<float>* circle)
   GMVec3 coord = this->_curve->getPosition(t);
   GMVec3 der1 = this->_curve->getDer1(t);
 
-    circle->set({ coord[0], coord[1], coord[2] },
-                {  der1[0],  der1[1],  der1[2] },
-                {        1,        0,        0 });
+  circle->set({ coord[0], coord[1], coord[2] },
+      { -der1[0], der1[1], der1[2] },
+      { 1, 0, 0 });
 }
-
 
 float MyVisualizer::calculateTorsion(float t)
 {

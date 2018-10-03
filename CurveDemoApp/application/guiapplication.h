@@ -27,7 +27,7 @@ class GuiApplication : public QGuiApplication {
 
   private:
   Window _window;
-  Scenario _scenario;
+  MySoothingNamespace::Scenario _scenario;
   DefaultHidManager _hidmanager;
 
   private slots:

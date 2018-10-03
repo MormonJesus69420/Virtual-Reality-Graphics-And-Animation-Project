@@ -6,6 +6,8 @@
 // qt
 #include <QObject>
 
+namespace MySoothingNamespace {
+
 class Scenario : public GMlibWrapper {
   Q_OBJECT
   public:
@@ -20,4 +22,5 @@ class Scenario : public GMlibWrapper {
   private:
 };
 
+} // namespace MySoothingNamespace
 #endif // SCENARIO_H
