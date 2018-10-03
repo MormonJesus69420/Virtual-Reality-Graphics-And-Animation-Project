@@ -1,5 +1,8 @@
 #include "application/gmlibwrapper.h"
 
+//GMlib
+#include "gmCoreModule"
+
 //stl
 #include <math.h>
 
@@ -20,11 +23,12 @@ class MyVisualizerCircle;
 
 class MyVisualizer { //: public GMlib::SceneObject {
   public:
-  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const int sampleSize, const float tStep = 0.01f);
+  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const int sampleSize, const float tStep = 0.001f);
   bool visualize();
   void update(const double dt);
 
   float findGreatestCurvature() const;
+  float findGreatestTorsion() const;
   protected:
   void localSimulate(const double dt); //override;
 
@@ -60,6 +64,7 @@ class MyVisualizer { //: public GMlib::SceneObject {
   void moveCircleToCurve(CurveParams& p);
   float calculateCurvature(float t) const;
   float calculateTorsion(float t) const;
+  GMlib::Color calculateColor(const CurveParams& p);
 
 
 

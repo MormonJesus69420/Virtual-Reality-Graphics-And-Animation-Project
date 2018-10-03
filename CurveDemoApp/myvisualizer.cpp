@@ -33,7 +33,9 @@ bool MyVisualizer::visualize()
       moveCircleToCurve(param);
 
       mycircle->toggleDefaultVisualizer();
-      mycircle->setMaterial(GMlib::GMcolor::crimson());
+//      mycircle->setMaterial(GMlib::GMcolor::crimson());
+      auto color = this->calculateColor(param);
+      mycircle->setColor(color);
       mycircle->sample(100, 2);
       this->_circles.push_back(mycircle);
       this->_wrapper->scene()->insert(mycircle);
@@ -51,10 +53,33 @@ void MyVisualizer::update(double dt)
   this->localSimulate(dt);
 }
 
+float MyVisualizer::findGreatestTorsion() const
+{
+  auto maxIt = std::max_element(_params.begin(), _params.end(),
+      [](const CurveParams& obj1, const CurveParams& obj2) {
+        return fabs(obj1.torsion) < fabs(obj2.torsion);
+      });
+  if (maxIt == _params.end()) //for some reason (this should never happen as long as there are elements)
+    return 0;
+  return fabs(maxIt->torsion);
+}
+
 void MyVisualizer::updateParams()
 {
   for (auto& param : _params)
     this->updateParam(param);
+}
+
+GMlib::Color MyVisualizer::calculateColor(const MyVisualizer::CurveParams& p)
+{
+  float maxTorsion = this->findGreatestTorsion();
+  float hue = fabs(p.torsion) / maxTorsion;
+  float sat = 1.0f;
+  float val = 1.0f;
+
+  auto color = GMlib::Color(double(hue), double(sat), double(val), 1.0);
+  color.toRGB();
+  return color;
 }
 
 void MyVisualizer::updateParam(MyVisualizer::CurveParams& p)
