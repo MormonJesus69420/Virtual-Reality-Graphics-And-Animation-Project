@@ -144,12 +144,6 @@ set( SRCS
   application/window.cpp
 
   application/main.cpp
-
-  volumeshite/gmcfdcell.c
-  volumeshite/gmpfinitedifferencevolume.c
-  volumeshite/gmpvolume.c
-  volumeshite/gmpvolumedefaultvisualizer.c
-  volumeshite/gmpvolumevisualizer.c
   volumeshite/terrainvolume.cpp
   volumeshite/transferfunction.cpp
 
