@@ -29,7 +29,6 @@ bool MyVisualizer::visualize()
     for (auto& param : _params) {
       auto* mycircle = new MyVisualizerCircle<float>(param.t, param.curvature * 0.05f);
 
-      std::cout << param.torsion << std::endl;
       param.circle = mycircle;
       moveCircleToCurve(param);
 
@@ -74,8 +73,8 @@ void MyVisualizer::updateParams()
 GMlib::Color MyVisualizer::calculateColor(const MyVisualizer::CurveParams& p)
 {
   float maxTorsion = this->findGreatestTorsion();
-  float hue = (p.torsion / maxTorsion) /2 + 0.5;
-  float sat = 1.0f;
+  float hue = p.torsion < 0 ? 0.0f: 0.33f;
+  float sat = (fabs(p.torsion)/maxTorsion);
   float val = 1.0f;
 
   auto color = GMlib::Color(double(hue), double(sat), double(val), 1.0);

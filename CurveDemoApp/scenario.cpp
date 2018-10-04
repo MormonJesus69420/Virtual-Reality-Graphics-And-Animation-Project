@@ -90,6 +90,14 @@ void Scenario::initializeScenario()
   cp[5] = GMlib::Vector<float, 3>(5, 1, -2);
   cp[6] = GMlib::Vector<float, 3>(6, 2, 0);
   cp[7] = GMlib::Vector<float, 3>(7, 0, 0);
+//  cp[0] = GMlib::Vector<float, 3>(0, 0, 0);
+//  cp[1] = GMlib::Vector<float, 3>(1, 0.1f, 0);
+//  cp[2] = GMlib::Vector<float, 3>(2, 0, 0);
+//  cp[3] = GMlib::Vector<float, 3>(3, 0, 0.1f);
+//  cp[4] = GMlib::Vector<float, 3>(4, 0, 0);
+//  cp[5] = GMlib::Vector<float, 3>(5, 0.1f, 0);
+//  cp[6] = GMlib::Vector<float, 3>(6, 0, 0);
+//  cp[7] = GMlib::Vector<float, 3>(7, 0, .1f);
 
   auto myBSpline = new mybsplinecurve(cp, 3, false);
   myBSpline->toggleDefaultVisualizer();
