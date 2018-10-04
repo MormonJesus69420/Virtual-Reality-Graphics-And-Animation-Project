@@ -106,8 +106,8 @@ void Scenario::initializeScenario()
   myBSpline->sample(100, 4);
   this->scene()->insert(myBSpline);
 
-  auto* vis = new MySoothingNamespace::MyVisualizer(myBSpline, 1);
-  vis->visualize();
+//  auto* vis = new MySoothingNamespace::MyVisualizer(myBSpline, 1);
+//  vis->visualize();
 //  auto tv = new TerrainVolume(GMlib::Vector<int,3>(30,30,30));
 //  auto pvdv = new GMlib::PVolumeDefaultVisualizer<float,3>();/*
 //  pvdv->setSlicingVector(0.5,0,0.0);

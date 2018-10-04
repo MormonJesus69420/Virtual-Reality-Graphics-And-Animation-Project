@@ -22,6 +22,16 @@ MyVisualizer::MyVisualizer(const GMlib::PBSplineCurve<float>* c, int sampleSize,
   this->_tStep = tStep;
 }
 
+MyVisualizer::MyVisualizer(const MyVisualizer &vis, const GMlib::PBSplineCurve<float> *c)
+{
+  this->_circles = vis._circles;
+  this->_curve = c;
+  this->_samples = vis._samples;
+  this->_tStep = vis._tStep;
+  this->_params = vis._params;
+  this->_wrapper = vis._wrapper;
+}
+
 bool MyVisualizer::visualize()
 {
   try {
@@ -46,11 +56,6 @@ bool MyVisualizer::visualize()
     std::cerr << e.what();
     return false;
   }
-}
-
-void MyVisualizer::update(double dt)
-{
-  this->localSimulate(dt);
 }
 
 float MyVisualizer::findGreatestTorsion() const
@@ -92,14 +97,15 @@ void MyVisualizer::updateParam(MyVisualizer::CurveParams& p)
   p.torsion = this->calculateTorsion(t);
   p.der1 = this->_curve->getDer1(t);
 
+  p.circle->setColor(calculateColor(p));
+
   p.circle->setRadius(p.curvature * 0.05f);
   this->moveCircleToCurve(p);
 }
 
 void MyVisualizer::localSimulate(double dt [[maybe_unused]])
 {
-  for (auto& param : this->_params)
-    moveCircleToCurve(param);
+  updateParams();
 }
 
 //Copy-assignment operator

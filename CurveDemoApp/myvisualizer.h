@@ -3,6 +3,7 @@
 //GMlib
 #include "gmCoreModule"
 
+
 //stl
 #include <math.h>
 
@@ -18,19 +19,23 @@ namespace MySoothingNamespace {
 
 using GMVec3 = GMlib::Vector<float, 3>;
 
+class mybsplinecurve;
+
 template <typename T>
 class MyVisualizerCircle;
 
 class MyVisualizer { //: public GMlib::SceneObject {
+  friend mybsplinecurve;
+
   public:
-  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const int sampleSize, const float tStep = 0.001f);
+  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const int sampleSize = 1, const float tStep = 0.001f);
+  MyVisualizer(const MyVisualizer& vis, const GMlib::PBSplineCurve<float>* c);
   bool visualize();
-  void update(const double dt);
 
   float findGreatestCurvature() const;
   float findGreatestTorsion() const;
   protected:
-  void localSimulate(const double dt); //override;
+  void localSimulate(const double dt) ;//override;
 
   private:
   //TODO: Find better name
