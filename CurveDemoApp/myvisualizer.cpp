@@ -73,8 +73,11 @@ void MyVisualizer::updateParams()
 GMlib::Color MyVisualizer::calculateColor(const MyVisualizer::CurveParams& p)
 {
   float maxTorsion = this->findGreatestTorsion();
-  float hue = p.torsion < 0 ? 0.0f: 0.33f;
-  float sat = (fabs(p.torsion)/maxTorsion);
+  float hue = fabs(double(p.torsion)) < 0.1 ? 0.66f : p.torsion < 0 ? 0.0f: 0.33f;
+  //float sat = hue == 0.66f? 1.0f : (fabs(p.torsion)/maxTorsion;
+  float sat = (fabs(p.torsion)/maxTorsion) + 0.1;
+  if (sat > 1.0f)
+    sat = 1.0f;
   float val = 1.0f;
 
   auto color = GMlib::Color(double(hue), double(sat), double(val), 1.0);
