@@ -3,7 +3,6 @@
 //GMlib
 #include "gmCoreModule"
 
-
 //stl
 #include <math.h>
 
@@ -24,25 +23,23 @@ class mybsplinecurve;
 template <typename T>
 class MyVisualizerCircle;
 
-class MyVisualizer { //: public GMlib::SceneObject {
+class MyVisualizer {
   friend mybsplinecurve;
 
   public:
-  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const int sampleSize = 1, const float tStep = 0.001f);
+  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const int sampleSize = 1, const float tStep = .001f);
   MyVisualizer(const MyVisualizer& vis, const GMlib::PBSplineCurve<float>* c);
   bool visualize();
 
-  float findGreatestCurvature() const;
-  float findGreatestTorsion() const;
   protected:
-  void localSimulate(const double dt) ;//override;
+  void localSimulate(const double dt); //override;
 
   private:
   //TODO: Find better name
-  struct CurveParams{
-    CurveParams(){}
+  struct CurveParams {
+    CurveParams() {}
     CurveParams(const CurveParams& p);
-    CurveParams(CurveParams && p);
+    CurveParams(CurveParams&& p);
     CurveParams(float t, float curv, float to, const GMVec3& pos, const GMVec3& d1);
 
     CurveParams operator=(const CurveParams& p);
@@ -67,12 +64,10 @@ class MyVisualizer { //: public GMlib::SceneObject {
   void updateParams();
   void updateParam(CurveParams& p);
   void moveCircleToCurve(CurveParams& p);
+  float findGreatestTorsion() const;
   float calculateCurvature(float t) const;
   float calculateTorsion(float t) const;
   GMlib::Color calculateColor(const CurveParams& p);
-
-
-
 };
 
 } // namespace MySoothingNamespace

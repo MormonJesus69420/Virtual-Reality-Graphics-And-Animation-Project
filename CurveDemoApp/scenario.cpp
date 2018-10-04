@@ -101,7 +101,7 @@ void Scenario::initializeScenario()
 
   auto myBSpline = new mybsplinecurve(cp, 3, false);
   myBSpline->toggleDefaultVisualizer();
-  myBSpline->setColor(GMlib::GMcolor::blueViolet()); //This color is better than maroon
+  myBSpline->setColor(GMlib::Color(0,0,0,0)); //This color is better than maroon
   myBSpline->showSelectors(0.5);
   myBSpline->sample(100, 4);
   this->scene()->insert(myBSpline);

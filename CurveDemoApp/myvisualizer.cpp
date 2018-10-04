@@ -43,7 +43,6 @@ bool MyVisualizer::visualize()
       moveCircleToCurve(param);
 
       mycircle->toggleDefaultVisualizer();
-//      mycircle->setMaterial(GMlib::GMcolor::crimson());
       auto color = this->calculateColor(param);
       mycircle->setColor(color);
       mycircle->sample(100, 2);
@@ -68,19 +67,11 @@ float MyVisualizer::findGreatestTorsion() const
     return 0;
   return fabs(maxIt->torsion);
 }
-
-void MyVisualizer::updateParams()
-{
-  for (auto& param : _params)
-    this->updateParam(param);
-}
-
 GMlib::Color MyVisualizer::calculateColor(const MyVisualizer::CurveParams& p)
 {
   float maxTorsion = this->findGreatestTorsion();
-  float hue = fabs(double(p.torsion)) < 0.1 ? 0.66f : p.torsion < 0 ? 0.0f: 0.33f;
-  //float sat = hue == 0.66f? 1.0f : (fabs(p.torsion)/maxTorsion;
-  float sat = (fabs(p.torsion)/maxTorsion) + 0.1;
+  float hue = fabs(p.torsion) < 0.1f ? 0.66f : p.torsion < 0.0f ? 0.0f: 0.33f;
+  float sat = (fabs(p.torsion)/maxTorsion) + 0.1f;
   if (sat > 1.0f)
     sat = 1.0f;
   float val = 1.0f;
@@ -90,23 +81,32 @@ GMlib::Color MyVisualizer::calculateColor(const MyVisualizer::CurveParams& p)
   return color;
 }
 
+void MyVisualizer::localSimulate(double dt [[maybe_unused]])
+{
+    updateParams();
+}
+
+void MyVisualizer::updateParams()
+{
+  for (auto& param : _params)
+    updateParam(param);
+}
+
 void MyVisualizer::updateParam(MyVisualizer::CurveParams& p)
 {
   float t = p.t;
-  p.curvature = this->calculateCurvature(t);
-  p.torsion = this->calculateTorsion(t);
-  p.der1 = this->_curve->getDer1(t);
+  p.curvature = calculateCurvature(t);
+  p.torsion = calculateTorsion(t);
+  p.pos = _curve->getPosition(t);
+  p.der1 = _curve->getDer1(t);
+
 
   p.circle->setColor(calculateColor(p));
-
   p.circle->setRadius(p.curvature * 0.05f);
-  this->moveCircleToCurve(p);
+  moveCircleToCurve(p);
+  p.circle->sample(100, 2);
 }
 
-void MyVisualizer::localSimulate(double dt [[maybe_unused]])
-{
-  updateParams();
-}
 
 //Copy-assignment operator
 MyVisualizer::CurveParams MyVisualizer::CurveParams::operator=(const MyVisualizer::CurveParams& p)
@@ -182,8 +182,9 @@ float MyVisualizer::calculateTorsion(const float t) const
   GMVec3 der2 = this->_curve->getDer2(t);
   GMVec3 der3 = this->_curve->getDer3(t);
 
-  float dividend = (der1 ^ der2) * der3;
-  float divisor = powf((der1 ^ der2).getLength(), 2);
+  auto cross = der1 ^ der2;
+  auto dividend = cross * der3;
+  auto divisor = powf(cross.getLength(), 2);
 
   return dividend / divisor;
 }
@@ -197,17 +198,6 @@ float MyVisualizer::calculateCurvature(const float t) const
   float divisor = powf(der1.getLength(), 3);
 
   return dividend / divisor;
-}
-
-float MyVisualizer::findGreatestCurvature() const
-{
-  auto maxIt = std::max_element(_params.begin(), _params.end(),
-      [](const CurveParams& obj1, const CurveParams& obj2) {
-        return obj1.curvature < obj2.curvature;
-      });
-  if (maxIt == _params.end()) //for some reason (this should never happen as long as there are elements)
-    return 0;
-  return maxIt->curvature;
 }
 
 } // namespace MySoothingNamespace
