@@ -95,7 +95,7 @@ void MyVisualizer::updateParams()
 void MyVisualizer::updateParam(MyVisualizer::CurveParams& p)
 {
   float t = p.t;
-  p.curvature = calculateCurvature(t);
+  p.curvature = _curve->getCurvature(t);
   p.torsion = calculateTorsion(t);
   p.pos = _curve->getPosition(t);
   p.der1 = _curve->getDer1(t);
@@ -153,10 +153,10 @@ void MyVisualizer::setupParams()
 
 void MyVisualizer::setupParam(const float t)
 {
-  float kurwa = this->calculateCurvature(t);
-  float torsion = this->calculateTorsion(t);
-  GMVec3 der1 = this->_curve->getDer1(t);
-  GMVec3 pos = this->_curve->getPosition(t);
+  float kurwa = _curve->getCurvature(t);
+  float torsion = calculateTorsion(t);
+  GMVec3 der1 = _curve->getDer1(t);
+  GMVec3 pos = _curve->getPosition(t);
 
   _params.emplace(_params.end(), t, kurwa, torsion, pos, der1);
 }
@@ -185,17 +185,6 @@ float MyVisualizer::calculateTorsion(const float t) const
   auto cross = der1 ^ der2;
   auto dividend = cross * der3;
   auto divisor = powf(cross.getLength(), 2);
-
-  return dividend / divisor;
-}
-
-float MyVisualizer::calculateCurvature(const float t) const
-{
-  GMVec3 der1 = this->_curve->getDer1(t);
-  GMVec3 der2 = this->_curve->getDer2(t);
-
-  float dividend = (der1 ^ der2).getLength();
-  float divisor = powf(der1.getLength(), 3);
 
   return dividend / divisor;
 }

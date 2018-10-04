@@ -30,23 +30,17 @@ mybsplinecurve::mybsplinecurve(const GMlib::DVector<GMlib::Vector<float, 3>>& c,
 
 void mybsplinecurve::localSimulate(double dt)
 {
-  checkStateChange();
-
-  if (_stateChanged) {
+  if (checkStateChange())
     _visualizer->localSimulate(dt);
-    _stateChanged = false;
-  }
 }
 
-void mybsplinecurve::checkStateChange()
+bool mybsplinecurve::checkStateChange()
 {
-  if (fabs(_previousLength - getCurveLength()) > 0.01f){
-    _stateChanged = true;
+  if (fabs(_previousLength - getCurveLength()) > 0.01f) {
     _previousLength = getCurveLength();
-    return;
+    return true;
   }
-
-
+  return false;
 }
 
 void mybsplinecurve::createVisualizer()

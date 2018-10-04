@@ -13,7 +13,6 @@ class mybsplinecurve : public GMlib::PBSplineCurve<float> {
   //mybsplinecurve(const GMlib::PCurve<float,3>& curve, int d, int n, int m);
   mybsplinecurve(const mybsplinecurve& curve);
 
-  bool _stateChanged;
 
   using PBSplineCurve::PBSplineCurve;
 
@@ -22,7 +21,7 @@ class mybsplinecurve : public GMlib::PBSplineCurve<float> {
 
   private:
   void createVisualizer();
-  void checkStateChange();
+  bool checkStateChange();
 
   float _previousLength;
   std::unique_ptr<MyVisualizer> _visualizer;

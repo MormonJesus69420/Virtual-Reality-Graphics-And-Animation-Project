@@ -27,7 +27,7 @@ class MyVisualizer {
   friend mybsplinecurve;
 
   public:
-  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const int sampleSize = 1, const float tStep = .001f);
+  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const int sampleSize = 1, const float tStep = .01f);
   MyVisualizer(const MyVisualizer& vis, const GMlib::PBSplineCurve<float>* c);
   bool visualize();
 
