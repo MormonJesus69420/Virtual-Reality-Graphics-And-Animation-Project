@@ -17,29 +17,27 @@ mybsplinecurve::mybsplinecurve(const mybsplinecurve& curve)
 {
 }
 
-//mybsplinecurve::mybsplinecurve(const GMlib::PCurve<float, 3> &curve, int d, int n, int m) : GMlib::PBSplineCurve<float>(curve, d, n, m)
-//{
-//  createVisualizer();
-//}
-
 mybsplinecurve::mybsplinecurve(const GMlib::DVector<GMlib::Vector<float, 3>>& c, int d, bool closed)
     : GMlib::PBSplineCurve<float>(c, d, closed)
 {
   createVisualizer();
 }
 
-void mybsplinecurve::localSimulate(double dt)
+void mybsplinecurve::localSimulate(double dt [[maybe_unused]])
 {
   if (checkStateChange())
-    _visualizer->localSimulate(dt);
+    _visualizer->updateParams();
 }
 
 bool mybsplinecurve::checkStateChange()
 {
-  if (fabs(_previousLength - getCurveLength()) > 0.01f) {
-    _previousLength = getCurveLength();
+  float length = getCurveLength();
+
+  if (fabs(_previousLength - length) > 0.0001f) {
+    _previousLength = length;
     return true;
   }
+
   return false;
 }
 

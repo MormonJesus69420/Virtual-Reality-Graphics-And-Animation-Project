@@ -27,44 +27,38 @@ class MyVisualizer {
   friend mybsplinecurve;
 
   public:
-  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const int sampleSize = 1, const float tStep = .01f);
+  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const float tStep = .003f);
   MyVisualizer(const MyVisualizer& vis, const GMlib::PBSplineCurve<float>* c);
   bool visualize();
+  void updateParams();
 
-  protected:
-  void localSimulate(const double dt); //override;
+  void setupCircles();
 
   private:
-  //TODO: Find better name
   struct CurveParams {
     CurveParams() {}
     CurveParams(const CurveParams& p);
     CurveParams(CurveParams&& p);
-    CurveParams(float t, float curv, float to, const GMVec3& pos, const GMVec3& d1);
+    CurveParams(float t, float curvature, float torsion, const GMVec3& position, const GMVec3& tangent);
 
     CurveParams operator=(const CurveParams& p);
 
-    float t;
-    float curvature;
-    float torsion;
-    GMVec3 pos;
-    GMVec3 der1;
+    float t, curvature, torsion;
+    GMVec3 position, tangent;
     MyVisualizerCircle<float>* circle = nullptr;
   };
 
-  std::vector<MyVisualizerCircle<float>*> _circles;
-  std::vector<CurveParams> _params;
   const GMlib::PBSplineCurve<float>* _curve;
+  std::vector<CurveParams> _params;
   GMlibWrapper* _wrapper = nullptr;
-  int _samples;
-  float _tStep;
+  GMVec3 _up_vector = { 1, 0, 0 };
+  float _tStep, _greatest_torsion;
 
   void setupParams();
   void setupParam(const float t);
-  void updateParams();
   void updateParam(CurveParams& p);
   void moveCircleToCurve(CurveParams& p);
-  float findGreatestTorsion() const;
+  void findGreatestTorsion();
   float calculateCurvature(float t) const;
   float calculateTorsion(float t) const;
   GMlib::Color calculateColor(const CurveParams& p);

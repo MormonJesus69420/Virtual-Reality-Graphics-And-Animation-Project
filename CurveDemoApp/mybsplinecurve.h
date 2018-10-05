@@ -3,16 +3,16 @@
 
 #include <gmParametricsModule>
 
+using control_points = GMlib::DVector<GMlib::Vector<float, 3>>;
+
 namespace MySoothingNamespace {
 class MyVisualizer;
 
 class mybsplinecurve : public GMlib::PBSplineCurve<float> {
   public:
-  mybsplinecurve(const GMlib::DVector<GMlib::Vector<float, 3>>& c, const GMlib::DVector<float>& t, int d = 0);
-  mybsplinecurve(const GMlib::DVector<GMlib::Vector<float, 3>>& c, int d, bool closed);
-  //mybsplinecurve(const GMlib::PCurve<float,3>& curve, int d, int n, int m);
+  mybsplinecurve(const control_points& c, const GMlib::DVector<float>& t, int d = 0); // maybe unused, kept for safety.
+  mybsplinecurve(const control_points& c, int d, bool closed);
   mybsplinecurve(const mybsplinecurve& curve);
-
 
   using PBSplineCurve::PBSplineCurve;
 
