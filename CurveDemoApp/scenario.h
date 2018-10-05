@@ -6,6 +6,7 @@
 // qt
 #include <QObject>
 
+
 namespace MySoothingNamespace {
 
 class Scenario : public GMlibWrapper {
@@ -16,12 +17,15 @@ class Scenario : public GMlibWrapper {
   void initializeScenario() override;
   void cleanupScenario() override;
 
-  void initCurve();
 
   public slots:
   void callDefferedGL();
 
   private:
+  void initCurve();
+  void initVoluetric();
+  std::shared_ptr<std::vector<GMlib::Point<float,3>>> readFile(const std::string& fileName) const;
+  void readData(std::vector<GMlib::Vector<float,3>> data);
 };
 
 } // namespace MySoothingNamespace

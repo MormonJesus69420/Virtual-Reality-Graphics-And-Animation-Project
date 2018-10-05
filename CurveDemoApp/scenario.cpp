@@ -1,10 +1,11 @@
 
-#include <iostream>
 
 #include "mybsplinecurve.h"
 #include "myvisualizer.h"
 #include "scenario.h"
 
+//Alexander sin kode
+#include "volumeshite/terrainvolume.h"
 //// hidmanager
 //#include "hidmanager/defaulthidmanager.h"
 
@@ -17,8 +18,11 @@
 // qt
 #include <QQuickItem>
 
-//Alexander sin kode
-#include "volumeshite/terrainvolume.h"
+
+
+//#include <iostream>
+//#include <fstream>
+//#include <sstream>
 
 namespace MySoothingNamespace {
 
@@ -81,33 +85,39 @@ void Scenario::initializeScenario()
   scene()->insertCamera(top_rcpair.camera.get());
   top_rcpair.renderer->reshape(GMlib::Vector<int, 2>(init_viewport_size, init_viewport_size));
 
-  initCurve();
+  if (/* DISABLES CODE */ (false)){
+    initCurve();
+  }
+  else{
+    initVoluetric();
+  }
 
 }
 
 void Scenario::cleanupScenario()
 {
+
 }
 
 void Scenario::initCurve()
 {
    GMlib::DVector<GMlib::Vector<float, 3>> cp(8);
-  cp[0] = GMlib::Vector<float, 3>(0, 0, 0);
-  cp[1] = GMlib::Vector<float, 3>(1, 1, 0);
-  cp[2] = GMlib::Vector<float, 3>(2, 0, 2);
-  cp[3] = GMlib::Vector<float, 3>(3, 2, 0);
-  cp[4] = GMlib::Vector<float, 3>(4, 1, 0);
-  cp[5] = GMlib::Vector<float, 3>(5, 1, -2);
-  cp[6] = GMlib::Vector<float, 3>(6, 2, 0);
-  cp[7] = GMlib::Vector<float, 3>(7, 0, 0);
 //  cp[0] = GMlib::Vector<float, 3>(0, 0, 0);
-//  cp[1] = GMlib::Vector<float, 3>(1, 0.1f, 0);
-//  cp[2] = GMlib::Vector<float, 3>(2, 0, 0);
-//  cp[3] = GMlib::Vector<float, 3>(3, 0, 0.1f);
-//  cp[4] = GMlib::Vector<float, 3>(4, 0, 0);
-//  cp[5] = GMlib::Vector<float, 3>(5, 0.1f, 0);
-//  cp[6] = GMlib::Vector<float, 3>(6, 0, 0);
-//  cp[7] = GMlib::Vector<float, 3>(7, 0, .1f);
+//  cp[1] = GMlib::Vector<float, 3>(1, 1, 0);
+//  cp[2] = GMlib::Vector<float, 3>(2, 0, 2);
+//  cp[3] = GMlib::Vector<float, 3>(3, 2, 0);
+//  cp[4] = GMlib::Vector<float, 3>(4, 1, 0);
+//  cp[5] = GMlib::Vector<float, 3>(5, 1, -2);
+//  cp[6] = GMlib::Vector<float, 3>(6, 2, 0);
+//  cp[7] = GMlib::Vector<float, 3>(7, 0, 0);
+  cp[0] = GMlib::Vector<float, 3>(0, 0, 0);
+  cp[1] = GMlib::Vector<float, 3>(1, 0, 0);
+  cp[2] = GMlib::Vector<float, 3>(2, 0, 0);
+  cp[3] = GMlib::Vector<float, 3>(3, 0, 0);
+  cp[4] = GMlib::Vector<float, 3>(4, 0, 0);
+  cp[5] = GMlib::Vector<float, 3>(5, 0, 0);
+  cp[6] = GMlib::Vector<float, 3>(6, 0, 0);
+  cp[7] = GMlib::Vector<float, 3>(7, 0, 0);
 
   auto myBSpline = new mybsplinecurve(cp, 3, false);
   myBSpline->toggleDefaultVisualizer();
@@ -126,7 +136,51 @@ void Scenario::initCurve()
 //  tv->insertVisualizer(pvdv);
 //  tv->replot(30,30,30,0,0,0);
 //  this->scene()->insert(tv);
-//  scene()->getCameras()[0]->lock(tv);
+  //  scene()->getCameras()[0]->lock(tv);
+}
+
+void Scenario::initVoluetric()
+{
+  auto content [[maybe_unused]] = readFile("~/Environment/STE6249-Virtual-Reality-Graphics-And-Animation-Project/bjerkvikground.txt");
+  auto tv = new TerrainVolume(GMlib::Vector<int,3>(30,30,30));
+  auto pvdv = new GMlib::PVolumeDefaultVisualizer<float,3>();
+  pvdv->setSlicingVector(0.5,0,0.0);
+  pvdv->setShaders(false,false,false,false,false,true);
+  pvdv->updateTransferValues(false);
+  tv->insertVisualizer(pvdv);
+  tv->replot(30,30,30,0,0,0);
+  this->scene()->insert(tv);
+  scene()->getCameras()[0]->lock(tv);
+}
+
+std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const std::string &fileName) const
+{
+  std::ifstream file;
+  std::shared_ptr<std::vector<GMlib::Point<float, 3>>> result = std::make_shared<std::vector<GMlib::Point<float, 3>>>();
+  result->reserve(2243319);
+  try {
+    file.open(fileName);
+    float x, y, z;
+    while(file >> x >> y >> z) {
+      x -= 604400;
+      y -= 760600;
+
+      result->emplace(result->end(), x, y, z);
+    }
+  } catch(std::runtime_error e) {
+    std::cerr << e.what() << std::endl;
+  }
+  catch (std::exception e) {
+    std::cerr << e.what() << std::endl;
+    std::cout << "eof: " << file.eof() << std::endl;
+  }
+  std::cout << "FINALLY DONE READING" << std::endl;
+  return result;
+}
+
+void Scenario::readData(std::vector<GMlib::Vector<float, 3>> data [[maybe_unused]])
+{
+  std::cout << "Read complete" << std::endl;
 }
 
 void Scenario::callDefferedGL()
