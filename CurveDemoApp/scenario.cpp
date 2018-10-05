@@ -81,7 +81,17 @@ void Scenario::initializeScenario()
   scene()->insertCamera(top_rcpair.camera.get());
   top_rcpair.renderer->reshape(GMlib::Vector<int, 2>(init_viewport_size, init_viewport_size));
 
-  GMlib::DVector<GMlib::Vector<float, 3>> cp(8);
+  initCurve();
+
+}
+
+void Scenario::cleanupScenario()
+{
+}
+
+void Scenario::initCurve()
+{
+   GMlib::DVector<GMlib::Vector<float, 3>> cp(8);
   cp[0] = GMlib::Vector<float, 3>(0, 0, 0);
   cp[1] = GMlib::Vector<float, 3>(1, 1, 0);
   cp[2] = GMlib::Vector<float, 3>(2, 0, 2);
@@ -117,10 +127,6 @@ void Scenario::initializeScenario()
 //  tv->replot(30,30,30,0,0,0);
 //  this->scene()->insert(tv);
 //  scene()->getCameras()[0]->lock(tv);
-}
-
-void Scenario::cleanupScenario()
-{
 }
 
 void Scenario::callDefferedGL()

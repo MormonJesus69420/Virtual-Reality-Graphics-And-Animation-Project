@@ -16,6 +16,8 @@ class Scenario : public GMlibWrapper {
   void initializeScenario() override;
   void cleanupScenario() override;
 
+  void initCurve();
+
   public slots:
   void callDefferedGL();
 
