@@ -46,6 +46,17 @@ Item {
       onClicked: hid_bind_view.toggle()
     }
 
+    Button {
+        text: "Switch View"
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.margins: 5
+
+        opacity: 0.3
+
+
+    }
+
     HidBindingView {
       id: hid_bind_view
       anchors.fill: parent
