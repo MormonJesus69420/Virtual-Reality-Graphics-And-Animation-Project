@@ -1,4 +1,4 @@
-#include "application/gmlibwrapper.h"
+#include "../application/gmlibwrapper.h"
 
 //GMlib
 #include "gmCoreModule"

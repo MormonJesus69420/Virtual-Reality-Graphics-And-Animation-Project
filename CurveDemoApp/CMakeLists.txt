@@ -121,10 +121,11 @@ set( HDRS
   volumeshite/terrainvolume.h
   volumeshite/transferfunction.h
 
+  kurwature/mybsplinecurve.h
+  kurwature/myvisualizer.h
+  kurwature/myviscircle.h
+
   scenario.h
-  mybsplinecurve.h
-  myvisualizer.h
-  myviscircle.h
   )
 
 set( SRCS
@@ -147,9 +148,10 @@ set( SRCS
   volumeshite/terrainvolume.cpp
   volumeshite/transferfunction.cpp
 
+  kurwature/mybsplinecurve.cpp
+  kurwature/myvisualizer.cpp
+
   scenario.cpp
-  mybsplinecurve.cpp
-  myvisualizer.cpp
   )
 
 #########

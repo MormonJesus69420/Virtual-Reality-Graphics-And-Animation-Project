@@ -1,8 +1,8 @@
 
 
 #include "scenario.h"
-#include "mybsplinecurve.h"
-#include "myvisualizer.h"
+#include "kurwature/mybsplinecurve.h"
+#include "kurwature/myvisualizer.h"
 
 //Alexander sin kode
 #include "volumeshite/terrainvolume.h"
