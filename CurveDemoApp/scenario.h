@@ -24,8 +24,7 @@ class Scenario : public GMlibWrapper {
   private:
   void initCurve();
   void initVolumetric();
-  std::shared_ptr<std::vector<GMlib::Point<float,3>>> readFile(const std::string& fileName,
-                                                               float xOffset = 604400, float yOffset = 7606000) const;
+  std::shared_ptr<std::vector<GMlib::Point<float,3>>> readFile(const std::string& fileName) const;
   void readData(std::vector<GMlib::Vector<float,3>> data);
 };
 
