@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <random>
 
-TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim)
+TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vector<GMlib::Vector<float,3>>> tData)
     : GMlib::PFiniteDifferenceVolume<float, 3>()
 {
   _dim = dim;
