@@ -146,6 +146,16 @@ void MyVisualizer::updateParam(MyVisualizer::CurveParams& p)
   p.circle->sample(100, 2);
 }
 
+MyVisualizer::CurveParams::CurveParams(MyVisualizer::CurveParams &&p)
+  : t(std::move(p.t)),
+    curvature(std::move(p.curvature)),
+    torsion(std::move(p.torsion)),
+    position(p.position),
+    tangent(p.tangent),
+    circle(std::move(p.circle))
+{
+}
+
 MyVisualizer::CurveParams::CurveParams(float t, float curvature, float torsion, const GMVec3& position, const GMVec3& tangent)
 {
   this->t = t;
@@ -153,6 +163,18 @@ MyVisualizer::CurveParams::CurveParams(float t, float curvature, float torsion, 
   this->torsion = torsion;
   this->position = position;
   this->tangent = tangent;
+}
+
+MyVisualizer::CurveParams& MyVisualizer::CurveParams::operator=(MyVisualizer::CurveParams &&p)
+{
+  t = std::move(p.t);
+  curvature = std::move(p.curvature);
+  torsion = std::move(p.torsion);
+  position = p.position;
+  tangent = p.tangent;
+  circle = std::move(p.circle);
+
+  return *this;
 }
 
 } // namespace MySoothingNamespace

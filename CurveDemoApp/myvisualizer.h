@@ -38,11 +38,11 @@ class MyVisualizer {
   struct CurveParams {
     CurveParams() {}
     CurveParams(const CurveParams& p) = default;
-    CurveParams(CurveParams&& p) = default;
+    CurveParams(CurveParams&& p);
     CurveParams(float t, float curvature, float torsion, const GMVec3& position, const GMVec3& tangent);
 
     CurveParams& operator=(const CurveParams& p) = default;
-    CurveParams& operator=(CurveParams&& p) = default;
+    CurveParams& operator=(CurveParams&& p);
 
     float t, curvature, torsion;
     GMVec3 position, tangent;
