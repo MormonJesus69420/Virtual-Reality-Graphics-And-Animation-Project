@@ -83,7 +83,7 @@ void Scenario::initializeScenario()
   scene()->insertCamera(top_rcpair.camera.get());
   top_rcpair.renderer->reshape(GMlib::Vector<int, 2>(init_viewport_size, init_viewport_size));
 
-  true ? initCurve(): initVolumetric();
+  false ? initCurve(): initVolumetric();
 }
 
 void Scenario::cleanupScenario()
@@ -111,7 +111,7 @@ void Scenario::initCurve()
 
 void Scenario::initVolumetric()
 {
-  auto content [[maybe_unused]] = readFile("~/Environment/STE6249-Virtual-Reality-Graphics-And-Animation-Project/bjerkvikground.txt");
+  std::shared_ptr<std::vector<GMlib::Point<float, 3>>> content = readFile("/home/krahager/Environment/STE6249-Virtual-Reality-Graphics-And-Animation-Project/bjerkvikgroundadjusted.txt");
   auto tv = new TerrainVolume(GMlib::Vector<int, 3>(30, 30, 30));
   auto pvdv = new GMlib::PVolumeDefaultVisualizer<float, 3>();
   pvdv->setSlicingVector(0.5, 0, 0.0);
@@ -123,7 +123,7 @@ void Scenario::initVolumetric()
   scene()->getCameras()[0]->lock(tv);
 }
 
-std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const std::string& fileName) const
+std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const std::string& fileName, float xOffset, float yOffset) const
 {
   std::ifstream file;
   std::shared_ptr<std::vector<GMlib::Point<float, 3>>> result = std::make_shared<std::vector<GMlib::Point<float, 3>>>();
@@ -132,11 +132,11 @@ std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const st
     file.open(fileName);
     float x, y, z;
     while (file >> x >> y >> z) {
-      x -= 604400;
-      y -= 760600;
+      x -= xOffset;
+      y -= yOffset;
 
       result->emplace(result->end(), x, y, z);
-    }
+   }
   }
   catch (std::runtime_error e) {
     std::cerr << e.what() << std::endl;
@@ -144,6 +144,14 @@ std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const st
   catch (std::exception e) {
     std::cerr << e.what() << std::endl;
   }
+
+//  std::ofstream oFile;
+//  oFile.open("/home/krahager/Environment/STE6249-Virtual-Reality-Graphics-And-Animation-Project/bjerkvikgroundadjusted.txt", oFile.trunc);
+
+//  for(const auto& v : *result){
+//    oFile << std::setprecision(2) << std::fixed << v[0] << " " << std::fixed << v[1] << " " << std::fixed << v[2] << std::endl;
+//  }
+
   return result;
 }
 
