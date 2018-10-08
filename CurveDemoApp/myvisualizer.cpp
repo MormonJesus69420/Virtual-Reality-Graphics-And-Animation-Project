@@ -146,12 +146,6 @@ void MyVisualizer::updateParam(MyVisualizer::CurveParams& p)
   p.circle->sample(100, 2);
 }
 
-//Copy-assignment operator
-MyVisualizer::CurveParams MyVisualizer::CurveParams::operator=(const MyVisualizer::CurveParams& p)
-{
-  return CurveParams(p);
-}
-
 MyVisualizer::CurveParams::CurveParams(float t, float curvature, float torsion, const GMVec3& position, const GMVec3& tangent)
 {
   this->t = t;

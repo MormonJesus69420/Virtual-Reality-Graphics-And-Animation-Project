@@ -41,7 +41,8 @@ class MyVisualizer {
     CurveParams(CurveParams&& p) = default;
     CurveParams(float t, float curvature, float torsion, const GMVec3& position, const GMVec3& tangent);
 
-    CurveParams operator=(const CurveParams& p);
+    CurveParams& operator=(const CurveParams& p) = default;
+    CurveParams& operator=(CurveParams&& p) = default;
 
     float t, curvature, torsion;
     GMVec3 position, tangent;
