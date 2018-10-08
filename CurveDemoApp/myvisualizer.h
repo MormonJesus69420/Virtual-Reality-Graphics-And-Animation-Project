@@ -37,9 +37,15 @@ class MyVisualizer {
   private:
   struct CurveParams {
     CurveParams() {}
+<<<<<<< HEAD
     CurveParams(const CurveParams& p);
     CurveParams(CurveParams&& p);
     CurveParams(float t, float curvature, float torsion, const GMVec3& position, const GMVec3& tangent);
+=======
+    CurveParams(const CurveParams& p) = default;
+    CurveParams(CurveParams&& p) = default;
+    CurveParams(float t, float curv, float to, const GMVec3& pos, const GMVec3& d1);
+>>>>>>> Replaced copy and move constructors for CurveParams with default ones
 
     CurveParams operator=(const CurveParams& p);
 

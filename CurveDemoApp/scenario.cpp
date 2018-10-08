@@ -143,9 +143,7 @@ std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const st
   }
   catch (std::exception e) {
     std::cerr << e.what() << std::endl;
-    std::cout << "eof: " << file.eof() << std::endl;
   }
-  std::cout << "FINALLY DONE READING" << std::endl;
   return result;
 }
 

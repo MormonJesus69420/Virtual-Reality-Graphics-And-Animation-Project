@@ -152,28 +152,6 @@ MyVisualizer::CurveParams MyVisualizer::CurveParams::operator=(const MyVisualize
   return CurveParams(p);
 }
 
-//Copy-constructor
-MyVisualizer::CurveParams::CurveParams(const CurveParams& p)
-{
-  t = p.t;
-  curvature = p.curvature;
-  torsion = p.torsion;
-  tangent = p.tangent;
-  position = p.position;
-  circle = p.circle;
-}
-
-//Move-constructor
-MyVisualizer::CurveParams::CurveParams(MyVisualizer::CurveParams&& p)
-    : t(p.t)
-    , curvature(p.curvature)
-    , torsion(p.torsion)
-    , position(p.position)
-    , tangent(p.tangent)
-    , circle(p.circle)
-{
-}
-
 MyVisualizer::CurveParams::CurveParams(float t, float curvature, float torsion, const GMVec3& position, const GMVec3& tangent)
 {
   this->t = t;
