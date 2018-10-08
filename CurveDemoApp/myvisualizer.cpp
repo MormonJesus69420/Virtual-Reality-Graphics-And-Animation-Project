@@ -10,22 +10,21 @@ using GMVec3 = GMlib::Vector<float, 3>;
 namespace MySoothingNamespace {
 
 MyVisualizer::MyVisualizer(const GMlib::PBSplineCurve<float>* c, const float tStep)
+  : _curve(c),
+    _tStep(tStep)
 {
   _wrapper = &(GMlibWrapper::instance());
   if (_wrapper == nullptr) { // If this happens, we tried to get the wrapper too early
     throw std::runtime_error("Wrapper should not be nullptr, check if the visualizer was constructed too early");
   }
-
-  this->_curve = c;
-  this->_tStep = tStep;
 }
 
 MyVisualizer::MyVisualizer(const MyVisualizer& vis, const GMlib::PBSplineCurve<float>* c)
+  : _curve(c),
+    _params(vis._params),
+    _wrapper(vis._wrapper),
+    _tStep(vis._tStep)
 {
-  this->_curve = c;
-  this->_tStep = vis._tStep;
-  this->_params = vis._params;
-  this->_wrapper = vis._wrapper;
 }
 
 bool MyVisualizer::visualize()
@@ -157,12 +156,12 @@ MyVisualizer::CurveParams::CurveParams(MyVisualizer::CurveParams &&p)
 }
 
 MyVisualizer::CurveParams::CurveParams(float t, float curvature, float torsion, const GMVec3& position, const GMVec3& tangent)
+  : t(t),
+    curvature(curvature),
+    torsion(torsion),
+    position(position),
+    tangent(tangent)
 {
-  this->t = t;
-  this->curvature = curvature;
-  this->torsion = torsion;
-  this->position = position;
-  this->tangent = tangent;
 }
 
 MyVisualizer::CurveParams& MyVisualizer::CurveParams::operator=(MyVisualizer::CurveParams &&p)
