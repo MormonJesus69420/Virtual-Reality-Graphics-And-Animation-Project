@@ -112,7 +112,7 @@ void Scenario::initCurve()
 void Scenario::initVolumetric()
 {
   // std::shared_ptr<std::vector<GMlib::Point<float, 3>>> content = readFile("/home/krahager/Environment/STE6249-Virtual-Reality-Graphics-And-Animation-Project/bjerkvikground.txt");
-  std::shared_ptr<std::vector<GMlib::Point<float, 3>>> content = readFile("/home/mormonjz/Projects/VirtualRealityGraphicsAndAnimationProject/bjerkvikground.txt");
+  std::shared_ptr<std::vector<GMlib::Point<float, 3>>> content = readFile("bjerkvikground.txt");
   auto tv = new TerrainVolume(GMlib::Vector<int, 3>(30, 30, 30), content);
   auto pvdv = new GMlib::PVolumeDefaultVisualizer<float, 3>();
   //pvdv->setSlicingVector(0.5, 0, 0.0);
