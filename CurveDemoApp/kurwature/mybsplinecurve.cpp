@@ -5,31 +5,31 @@
 
 namespace MySoothingNamespace {
 
-mybsplinecurve::mybsplinecurve(const GMlib::DVector<GMlib::Vector<float, 3>>& c, const GMlib::DVector<float>& t, int d)
+MyBSplineCurve::MyBSplineCurve(const GMlib::DVector<GMlib::Vector<float, 3>>& c, const GMlib::DVector<float>& t, int d)
     : GMlib::PBSplineCurve<float>(c, t, d)
 {
   createVisualizer();
 }
 
-mybsplinecurve::mybsplinecurve(const mybsplinecurve& curve)
+MyBSplineCurve::MyBSplineCurve(const MyBSplineCurve& curve)
     : GMlib::PBSplineCurve<float>(curve)
     , _visualizer(new MyVisualizer(*(curve._visualizer), this))
 {
 }
 
-mybsplinecurve::mybsplinecurve(const GMlib::DVector<GMlib::Vector<float, 3>>& c, int d, bool closed)
+MyBSplineCurve::MyBSplineCurve(const GMlib::DVector<GMlib::Vector<float, 3>>& c, int d, bool closed)
     : GMlib::PBSplineCurve<float>(c, d, closed)
 {
   createVisualizer();
 }
 
-void mybsplinecurve::localSimulate(double dt [[maybe_unused]])
+void MyBSplineCurve::localSimulate(double dt [[maybe_unused]])
 {
   if (checkStateChange())
     _visualizer->updateParams();
 }
 
-bool mybsplinecurve::checkStateChange()
+bool MyBSplineCurve::checkStateChange()
 {
   float length = getCurveLength();
 
@@ -41,7 +41,7 @@ bool mybsplinecurve::checkStateChange()
   return false;
 }
 
-void mybsplinecurve::createVisualizer()
+void MyBSplineCurve::createVisualizer()
 {
   _previousLength = getCurveLength();
   _visualizer = std::make_unique<MyVisualizer>(this);

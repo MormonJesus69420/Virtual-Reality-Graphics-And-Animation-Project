@@ -19,21 +19,19 @@ namespace MySoothingNamespace {
 
 using GMVec3 = GMlib::Vector<float, 3>;
 
-class mybsplinecurve;
+class MyBSplineCurve;
 
 template <typename T>
 class MyVisualizerCircle;
 
 class MyVisualizer {
-  friend mybsplinecurve;
+  friend MyBSplineCurve;
 
   public:
-  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const float tStep = .003f);
+  MyVisualizer(const GMlib::PBSplineCurve<float>* c, const float tStep = .005f);
   MyVisualizer(const MyVisualizer& vis, const GMlib::PBSplineCurve<float>* c);
   bool visualize();
   void updateParams();
-
-  void setupCircles();
 
   private:
   struct CurveParams {
@@ -57,11 +55,11 @@ class MyVisualizer {
   float _tStep, _greatest_torsion;
 
   void setupParams();
+  void setupCircles();
   void setupParam(const float t);
   void updateParam(CurveParams& p);
   void moveCircleToCurve(CurveParams& p);
   void findGreatestTorsion();
-  float calculateCurvature(float t) const;
   float calculateTorsion(float t) const;
   GMlib::Color calculateColor(const CurveParams& p);
 };
