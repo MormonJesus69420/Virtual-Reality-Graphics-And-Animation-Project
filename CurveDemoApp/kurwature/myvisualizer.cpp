@@ -1,6 +1,5 @@
 #include "myvisualizer.h"
 #include "gmParametricsModule"
-#include "myviscircle.h"
 
 //stl
 #include <math.h>
@@ -75,7 +74,7 @@ void MyVisualizer::setupCircles()
   findGreatestTorsion(); // Done here so we only calculate it once, used for calculateColor
 
   for (auto& param : _params) {
-    auto* mycircle = new MyVisualizerCircle<float>(param.curvature * 0.05f);
+    auto* mycircle = new GMlib::PCircle<float>(param.curvature * 0.05f);
 
     param.circle = mycircle;
     moveCircleToCurve(param);

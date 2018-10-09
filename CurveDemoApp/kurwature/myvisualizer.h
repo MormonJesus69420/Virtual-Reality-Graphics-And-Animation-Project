@@ -11,7 +11,8 @@ namespace GMlib {
 template <typename T>
 class PBSplineCurve;
 class SceneObject;
-
+template <typename T>
+class PCircle;
 } // namespace GMlib
 
 namespace MySoothingNamespace {
@@ -46,7 +47,7 @@ class MyVisualizer {
 
     float t, curvature, torsion;
     GMVec3 position, tangent;
-    MyVisualizerCircle<float>* circle = nullptr;
+    GMlib::PCircle<float>* circle = nullptr;
   };
 
   const GMlib::PBSplineCurve<float>* _curve;
