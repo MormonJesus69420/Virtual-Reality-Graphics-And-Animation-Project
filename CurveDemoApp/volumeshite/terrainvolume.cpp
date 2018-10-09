@@ -38,14 +38,23 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
   data.setDim(_dim);
 
   _max = computeMaxValues(tData.get());
+  _min = computeMinValues(tData.get());
+  _delta = _max - _min;
 
   _transformed = std::make_shared<std::vector<GMlib::Vector<int, 3>>>();
 
+
   std::transform(tData->begin(), tData->end(), std::back_insert_iterator<std::vector<GMlib::Vector<int, 3>>>(*_transformed),
       [this](GMlib::Point<float, 3>& vec) {
-        int x = int(std::lround((vec[0] / this->_max[0]) * this->_dim[0]));
-        int y = int(std::lround((vec[1] / this->_max[1]) * this->_dim[1]));
-        int z = int(std::lround((vec[2] / this->_max[2]) * this->_dim[2]));
+        int x = int(std::lround(((vec[0] - this->_min[0]) / this->_delta[0]) * this->_dim[0]));
+        int y = int(std::lround(((vec[1] - this->_min[1]) / this->_delta[1]) * this->_dim[1]));
+        int z = int(std::lround(((vec[2] - this->_min[2]) / this->_delta[2]) * this->_dim[2]));
+        if(x == _dim[0])
+          x--;
+        if(y == _dim[1])
+          y--;
+        if(z == _dim[2])
+          z--;
         return GMlib::Vector<int, 3>{ x, y, z };
       });
 

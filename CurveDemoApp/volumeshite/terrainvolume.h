@@ -26,6 +26,8 @@ class TerrainVolume : public GMlib::PFiniteDifferenceVolume<float, 3> {
   GMlib::Vector<int, 3> _dim;
   int step;
   GMlib::DVectorN<GMlib::CFDCell<float, 3>, 3> data;
+  GMlib::Vector<float,3> _delta;
+  GMlib::Vector<float,3> _min;
   GMlib::Vector<float,3> _max;
   int _maxPoints = 0;
   std::shared_ptr<std::vector<GMlib::Vector<int,3>>> _transformed;
