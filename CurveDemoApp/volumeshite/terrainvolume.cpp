@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <random>
 
-TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vector<GMlib::Vector<float,3>>> tData)
+TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim)
     : GMlib::PFiniteDifferenceVolume<float, 3>()
 {
   _dim = dim;
@@ -28,6 +28,33 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
   //    data[0][0][0].setColor(GMlib::Vector<float,4>(1,0,0,1));
   this->setPointSet(data, 0);
   step = 0;
+}
+
+TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vector<GMlib::Vector<float, 3>>> tData)
+{
+  _dim = dim;
+  data = GMlib::DVectorN<GMlib::CFDCell<float, 3>, 3>();
+  data.setDim(_dim);
+
+  float min = getValue(GMlib::Vector<float, 3>(2, 2, 2));
+  float max = getValue(GMlib::Vector<float, 3>(_dim[0] - 2, _dim[1] - 2, _dim[2] - 2));
+
+  for (int i = 0; i < _dim[0]; i++)
+    for (int j = 0; j < _dim[1]; j++)
+      for (int k = 0; k < _dim[2]; k++) {
+        data[i][j][k][0] = i;
+        data[i][j][k][1] = j;
+        data[i][j][k][2] = k;
+
+        float value = getValue(GMlib::Vector<float, 3>(i, j, k));
+        float hvalue = convertToHeatColors(value, min, max);
+        data[i][j][k].setColor(GMlib::Vector<float, 4>(hvalue, 1 - hvalue, 0, 1));
+      }
+
+  //    data[0][0][0].setColor(GMlib::Vector<float,4>(1,0,0,1));
+  this->setPointSet(data, 0);
+  step = 0;
+
 }
 
 float TerrainVolume::getValue(GMlib::Vector<float, 3> xyz)

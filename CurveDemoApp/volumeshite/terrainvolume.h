@@ -12,6 +12,7 @@
 
 class TerrainVolume : public GMlib::PFiniteDifferenceVolume<float, 3> {
   public:
+  TerrainVolume(GMlib::Vector<int, 3> dim);
   TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vector<GMlib::Vector<float,3>>> tData);
 
 
