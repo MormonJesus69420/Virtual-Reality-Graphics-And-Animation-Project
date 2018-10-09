@@ -176,7 +176,7 @@
 %%  The main content of the report  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mysection{1}{Introduction}
-In this project we aimed to visualize intrinsic properties of B-Spline curves (curve from now on) in 3D-space. These intrinsic curve properties are \emph{curvature} and \emph{torsion}. Curvature defines how fast a curve changes direction at any given point, whereas torsion defines how much the curve is "twisting" or "coming out of" the plane of curvature. As such we see that a curve cannot have torsion at a point if there is no curvature there. 
+In this project we aimed to visualize intrinsic properties of B-Spline curves (curve from now on) in 3D-space. These intrinsic curve properties are \emph{curvature} and \emph{torsion}. Curvature defines how fast a curve changes direction at any given point, whereas torsion defines how much the curve is "twisting" or "coming out of" the plane of curvature. As such we see that a curve cannot have torsion at a point if there is no curvature there. \cite{jia_2017}
 
 \mysection{2}{Methods}
 We have used GMlib to represent a curve in 3D space as well as representing its curvature using ovals (circles) and torsion using colours. 
@@ -220,8 +220,15 @@ We have tried many different ways of displaying torsion by, but after discussion
 which will normalize the torsion values so that both negative and positive torsion values are set based on maximum torsion.
 
 \mysection{5}{Discussion}
-We are quite happy with our visualizer, it is quite simple and easy to understand as well as it is lightweight and does not require use of shaders. It runs quite fast and lets user easily understand what he sees on the screen.
+We are quite happy with our visualizer, it is quite simple and easy to understand as well as it is lightweight and does not require use of shaders. It runs quite fast and lets user easily understand what he sees on the screen. It is also dynamic so each small edit made to curve is immediatly displayed on screen.
 
+There are of course possibilities for further development and improvements in our visualizer. One of these would be to implement restrictions on curve editing, so we don't end up with enourmous circles that result from extremely high curvature. Another feature worth implementing would be possibility to visualize higher order derivatives of curve, that could be easily done by adding lines at various points in curve with length equal to magnitude of these derivatives.
 
+\mysection{6}{Bibliography}
+\begingroup
+\def\section*#1{}
+\bibliographystyle{apa}
+\bibliography{Bibliography}
+\endgroup
 
 \end{document}
