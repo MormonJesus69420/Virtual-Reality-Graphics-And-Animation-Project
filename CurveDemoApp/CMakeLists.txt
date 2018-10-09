@@ -123,7 +123,6 @@ set( HDRS
 
   kurwature/mybsplinecurve.h
   kurwature/myvisualizer.h
-  kurwature/myviscircle.h
 
   scenario.h
   )
