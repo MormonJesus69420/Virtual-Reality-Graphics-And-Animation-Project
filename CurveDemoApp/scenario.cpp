@@ -83,7 +83,7 @@ void Scenario::initializeScenario()
   scene()->insertCamera(top_rcpair.camera.get());
   top_rcpair.renderer->reshape(GMlib::Vector<int, 2>(init_viewport_size, init_viewport_size));
 
-  false ? initCurve(): initVolumetric();
+  false ? initCurve() : initVolumetric();
 }
 
 void Scenario::cleanupScenario()
@@ -111,7 +111,6 @@ void Scenario::initCurve()
 
 void Scenario::initVolumetric()
 {
-  // std::shared_ptr<std::vector<GMlib::Point<float, 3>>> content = readFile("/home/krahager/Environment/STE6249-Virtual-Reality-Graphics-And-Animation-Project/bjerkvikground.txt");
   std::shared_ptr<std::vector<GMlib::Point<float, 3>>> content = readFile("bjerkvikground.txt");
   auto tv = new TerrainVolume(GMlib::Vector<int, 3>(30, 30, 30), content);
   auto pvdv = new GMlib::PVolumeDefaultVisualizer<float, 3>();
@@ -134,7 +133,7 @@ std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const st
     float x, y, z;
     while (file >> x >> y >> z) {
       result->emplace(result->end(), x, y, z);
-   }
+    }
   }
   catch (std::runtime_error e) {
     std::cerr << e.what() << std::endl;

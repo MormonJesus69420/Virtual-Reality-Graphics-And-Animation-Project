@@ -32,6 +32,7 @@ class TerrainVolume : public GMlib::PFiniteDifferenceVolume<float, 3> {
   std::shared_ptr<GMlib::Vector<GMlib::Matrix<int, 30, 30>, 30>> _points;
 
   GMlib::Vector<float, 3> computeMaxValues(std::vector<GMlib::Point<float,3>>* tData);
+  GMlib::Vector<float, 3> computeMinValues(std::vector<GMlib::Point<float,3>>* tData);
   float convertToHeatColors(float currentTemperature, float min, float max);
 };
 
