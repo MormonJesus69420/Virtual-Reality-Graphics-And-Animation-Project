@@ -59,7 +59,7 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
         return GMlib::Vector<int, 3>{ x, y, z };
       });
 
-  _points = std::make_shared<GMlib::Vector<GMlib::Matrix<int, 30, 30>, 30>>();
+  _points = std::make_shared<GMlib::Vector<GMlib::Matrix<int, DIM, DIM>, DIM>>();
 
   for (const auto& vec : *_transformed) {
     (*_points)[vec[0]][vec[1]][vec[2]]++;

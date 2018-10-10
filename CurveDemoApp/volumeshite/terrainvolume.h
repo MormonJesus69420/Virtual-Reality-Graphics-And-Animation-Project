@@ -10,6 +10,8 @@
 //stl
 #include <memory>
 
+#define DIM 30
+
 class TerrainVolume : public GMlib::PFiniteDifferenceVolume<float, 3> {
   public:
   TerrainVolume(GMlib::Vector<int, 3> dim);
@@ -31,7 +33,7 @@ class TerrainVolume : public GMlib::PFiniteDifferenceVolume<float, 3> {
   GMlib::Vector<float,3> _max;
   int _maxPoints = 0;
   std::shared_ptr<std::vector<GMlib::Vector<int,3>>> _transformed;
-  std::shared_ptr<GMlib::Vector<GMlib::Matrix<int, 30, 30>, 30>> _points;
+  std::shared_ptr<GMlib::Vector<GMlib::Matrix<int, DIM, DIM>, DIM>> _points;
 
   GMlib::Vector<float, 3> computeMaxValues(std::vector<GMlib::Point<float,3>>* tData);
   GMlib::Vector<float, 3> computeMinValues(std::vector<GMlib::Point<float,3>>* tData);

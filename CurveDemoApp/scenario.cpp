@@ -135,7 +135,7 @@ void Scenario::initCurve()
 void Scenario::initVolumetric()
 {
   std::shared_ptr<std::vector<GMlib::Point<float, 3>>> content = readFile("bjerkvikground.txt");
-  _tv = std::make_shared<TerrainVolume>(GMlib::Vector<int, 3>(30, 30, 30), content);
+  _tv = std::make_shared<TerrainVolume>(GMlib::Vector<int, 3>(DIM, DIM, DIM), content);
   _pvdv = std::make_shared<GMlib::PVolumeDefaultVisualizer<float, 3>>();
   //pvdv->setSlicingVector(0.5, 0, 0.0);
   //pvdv->setShaders(false, false, false, false, false, true);
