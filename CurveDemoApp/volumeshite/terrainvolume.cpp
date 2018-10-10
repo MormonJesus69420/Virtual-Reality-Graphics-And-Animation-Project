@@ -50,13 +50,15 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
         int x = int(std::lround(((vec[0] - this->_min[0]) / this->_delta[0]) * this->_dim[0]));
         int y = int(std::lround(((vec[1] - this->_min[1]) / this->_delta[1]) * this->_dim[1]));
         int z = int(std::lround(((vec[2] - this->_min[2]) / this->_delta[2]) * this->_dim[2]));
+//        int z = int(std::lround(vec[2]));
+//        z++;
         if(x == _dim[0])
           x--;
         if(y == _dim[1])
           y--;
         if(z == _dim[2])
           z--;
-        return GMlib::Vector<int, 3>{ x, y, z };
+        return GMlib::Vector<int, 3>{ z, x, y };
       });
 
   _points = std::make_shared<GMlib::Vector<GMlib::Matrix<int, DIM, DIM>, DIM>>();
@@ -66,6 +68,20 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
 
     if (_maxPoints < (*_points)[vec[0]][vec[1]][vec[2]])
       _maxPoints = (*_points)[vec[0]][vec[1]][vec[2]];
+  }
+
+  int colMax;
+  for(int i = 0; i < DIM; ++i){
+    for(int j = 0; j < DIM; ++j){
+      colMax = 0;
+      for(int k = 0; k < DIM; ++k){
+        if((*_points)[k][i][j] > (*_points)[colMax][i][j])
+          colMax = k;
+      }
+      auto maxval = (*_points)[colMax][i][j];
+      for(int k = 0; k < colMax; ++k)
+        (*_points)[k][i][j] = maxval;
+    }
   }
 
   float min [[maybe_unused]] = getValue(GMlib::Vector<float, 3>(2, 2, 2));
