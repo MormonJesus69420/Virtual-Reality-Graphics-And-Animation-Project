@@ -32,6 +32,10 @@ class MyVisualizer {
   MyVisualizer(const MyVisualizer& vis, const GMlib::PBSplineCurve<float>* c);
   bool visualize();
   void updateParams();
+  void cleanup();
+
+  void removeCircles();
+  void insertCircles();
 
   private:
   struct CurveParams {
@@ -45,7 +49,7 @@ class MyVisualizer {
 
     float t, curvature, torsion;
     GMVec3 position, tangent;
-    GMlib::PCircle<float>* circle = nullptr;
+    std::shared_ptr<GMlib::PCircle<float>> circle;
   };
 
   const GMlib::PBSplineCurve<float>* _curve;

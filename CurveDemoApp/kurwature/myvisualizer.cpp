@@ -74,7 +74,7 @@ void MyVisualizer::setupCircles()
   findGreatestTorsion(); // Done here so we only calculate it once, used for calculateColor
 
   for (auto& param : _params) {
-    auto* mycircle = new GMlib::PCircle<float>(param.curvature * 0.05f);
+    auto mycircle =  std::make_shared<GMlib::PCircle<float>>(param.curvature * 0.05f);
 
     param.circle = mycircle;
     moveCircleToCurve(param);
@@ -83,7 +83,19 @@ void MyVisualizer::setupCircles()
     mycircle->toggleDefaultVisualizer();
     mycircle->sample(100, 2);
 
-    _wrapper->scene()->insert(mycircle);
+    _wrapper->scene()->insert(mycircle.get());
+  }
+}
+
+void MyVisualizer::removeCircles(){
+  for(CurveParams param: _params){
+    _wrapper->scene()->remove(param.circle.get());
+  }
+}
+
+void MyVisualizer::insertCircles(){
+  for(CurveParams param: _params){
+    _wrapper->scene()->insert(param.circle.get());
   }
 }
 

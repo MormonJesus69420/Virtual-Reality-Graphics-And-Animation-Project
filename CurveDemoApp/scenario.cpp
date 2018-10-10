@@ -1,11 +1,10 @@
-
-
 #include "scenario.h"
+
 #include "kurwature/mybsplinecurve.h"
 #include "kurwature/myvisualizer.h"
+#include "volumeshite/terrainvolume.h"
 
 //Alexander sin kode
-#include "volumeshite/terrainvolume.h"
 //// hidmanager
 //#include "hidmanager/defaulthidmanager.h"
 
@@ -83,11 +82,36 @@ void Scenario::initializeScenario()
   scene()->insertCamera(top_rcpair.camera.get());
   top_rcpair.renderer->reshape(GMlib::Vector<int, 2>(init_viewport_size, init_viewport_size));
 
-  false ? initCurve() : initVolumetric();
+  initCurve();
+  initVolumetric();
+
+  scene()->insert(_curve.get());
+}
+
+void Scenario::toggleSimulation()
+{
+  cleanupScenario();
+
+  curve_sim_on = !curve_sim_on;
+
+  if (curve_sim_on) {
+    scene()->insert(_curve.get());
+    _curve->getVisualizer()->insertCircles();
+  }
+  else {
+    scene()->insert(_tv.get());
+  }
 }
 
 void Scenario::cleanupScenario()
 {
+  if (curve_sim_on) {
+    scene()->remove(_curve.get());
+    _curve->getVisualizer()->removeCircles();
+  }
+  else {
+    scene()->remove(_tv.get());
+  }
 }
 
 void Scenario::initCurve()
@@ -101,30 +125,27 @@ void Scenario::initCurve()
   cp[5] = GMlib::Vector<float, 3>(5, 1, -2);
   cp[6] = GMlib::Vector<float, 3>(6, 2, 0);
   cp[7] = GMlib::Vector<float, 3>(7, 0, 0);
-  auto myBSpline = new MyBSplineCurve(cp, 3, false);
-  myBSpline->toggleDefaultVisualizer();
-  myBSpline->setColor(GMlib::Color(0, 0, 0, 0)); //This color is better than maroon
-  myBSpline->showSelectors(0.5);
-  myBSpline->sample(100, 4);
-  this->scene()->insert(myBSpline);
+  _curve = std::make_shared<MyBSplineCurve>(cp, 3, false);
+  _curve->toggleDefaultVisualizer();
+  _curve->setColor(GMlib::Color(0, 0, 0, 0)); //This color is better than maroon
+  _curve->showSelectors(0.5);
+  _curve->sample(100, 4);
 }
 
 void Scenario::initVolumetric()
 {
   std::shared_ptr<std::vector<GMlib::Point<float, 3>>> content = readFile("bjerkvikground.txt");
-  _tv = std::make_unique<TerrainVolume>(GMlib::Vector<int, 3>(30, 30, 30), content);
-  _pvdv = std::make_unique<GMlib::PVolumeDefaultVisualizer<float, 3>>();
+  _tv = std::make_shared<TerrainVolume>(GMlib::Vector<int, 3>(30, 30, 30), content);
+  _pvdv = std::make_shared<GMlib::PVolumeDefaultVisualizer<float, 3>>();
   //pvdv->setSlicingVector(0.5, 0, 0.0);
   //pvdv->setShaders(false, false, false, false, false, true);
   _pvdv->updateTransferValues(false);
   _tv->insertVisualizer(_pvdv.get());
   _tv->replot(30, 30, 30, 0, 0, 0);
-  this->scene()->insert(_tv.get());
   TransferFunction* trans = _pvdv->getTransferFunction();
   trans->insertPoint(50, 50, 100, 100, 1, true);
   trans->insertPoint(99, 99, 100, 100, 2, true);
   trans->insertPoint(75, 30, 100, 100, 1, true);
-  scene()->getCameras()[0]->lock(_tv.get());
 }
 
 std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const std::string& fileName) const

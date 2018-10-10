@@ -16,6 +16,8 @@ class MyBSplineCurve : public GMlib::PBSplineCurve<float> {
 
   using PBSplineCurve::PBSplineCurve;
 
+  MyVisualizer* getVisualizer();
+
   protected:
   void localSimulate(double dt) override;
 

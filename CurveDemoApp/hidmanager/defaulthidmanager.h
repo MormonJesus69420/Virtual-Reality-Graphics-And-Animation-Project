@@ -28,6 +28,7 @@ class DefaultHidManager : public StandardHidManager {
 
   signals:
   void signToggleSimulation();
+  void signToggleVisualization();
   void signOpenCloseHidHelp();
 
   private slots:
@@ -53,6 +54,7 @@ class DefaultHidManager : public StandardHidManager {
   virtual void heSelectObjectTree(GMlib::SceneObject* obj);
   virtual void heToggleObjectDisplayMode();
   virtual void heToggleSimulation();
+  virtual void heToggleVisualization();
   virtual void heToggleSelectAllObjects();
   //  virtual void                      heUnlockCamera();
   virtual void heZoom(const HidInputEvent::HidInputParams& params);

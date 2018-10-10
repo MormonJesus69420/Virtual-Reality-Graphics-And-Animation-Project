@@ -457,8 +457,12 @@ void DefaultHidManager::heToggleObjectDisplayMode()
 
 void DefaultHidManager::heToggleSimulation()
 {
-
   emit signToggleSimulation();
+}
+
+void DefaultHidManager::heToggleVisualization()
+{
+  emit signToggleVisualization();
 }
 
 void DefaultHidManager::heToggleSelectAllObjects()
@@ -604,10 +608,10 @@ void DefaultHidManager::setupDefaultHidBindings()
       this, SLOT(heRotateSelectedObjects(HidInputEvent::HidInputParams)));
 
   // Object Selection
-  QString ha_id_objsel_toggle_all = registerHidAction("Object selection",
-      "Toggle: (de)select all objects",
-      "Toggle selection on all objects",
-      this, SLOT(heToggleSelectAllObjects()));
+//  QString ha_id_objsel_toggle_all = registerHidAction("Object selection",
+//      "Toggle: (de)select all objects",
+//      "Toggle selection on all objects",
+//      this, SLOT(heToggleSelectAllObjects()));
 
   QString ha_id_objsel_select = registerHidAction("Object selection",
       "Toggle selection of one object",
@@ -689,8 +693,15 @@ void DefaultHidManager::setupDefaultHidBindings()
       "Stuff that happens on left mouse release",
       this, SLOT(heLeftMouseReleaseStuff()));
 
+  // Toggle simulation
+  QString ha_id_vis_toggle = registerHidAction("Visualization",
+      "Toggle Visualization",
+      "Toggle between curve visualization and volume rendering",
+      this, SLOT(heToggleVisualization()),
+      OGL_TRIGGER);
+
   //// Set up initial mapping
-  registerHidMapping(ha_id_objsel_toggle_all, new KeyPressInput(Qt::Key_A));
+//  registerHidMapping(ha_id_objsel_toggle_all, new KeyPressInput(Qt::Key_A));
   registerHidMapping(ha_id_objint_toggle_colaps, new KeyPressInput(Qt::Key_Z, Qt::ControlModifier));
   registerHidMapping(ha_id_objint_toggle_close, new KeyPressInput(Qt::Key_O, Qt::ControlModifier));
   registerHidMapping(ha_id_objint_toggle_selectors, new KeyPressInput(Qt::Key_S, Qt::ControlModifier));
@@ -700,6 +711,7 @@ void DefaultHidManager::setupDefaultHidBindings()
   registerHidMapping(ha_id_objint_replot_low, new KeyPressInput(Qt::Key_P, Qt::ControlModifier));
   registerHidMapping(ha_id_sim_toggle, new KeyPressInput(Qt::Key_R));
   registerHidMapping(ha_id_render_toggle_shademode, new KeyPressInput(Qt::Key_Z));
+  registerHidMapping(ha_id_vis_toggle, new KeyPressInput(Qt::Key_T));
 
   registerHidMapping(ha_id_objsel_select, new MousePressInput(Qt::RightButton));
   registerHidMapping(ha_id_view_lock_to, new MousePressInput(Qt::RightButton, Qt::ControlModifier));
