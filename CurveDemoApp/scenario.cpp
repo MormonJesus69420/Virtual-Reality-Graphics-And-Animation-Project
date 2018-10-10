@@ -140,12 +140,12 @@ void Scenario::initVolumetric()
   //pvdv->setSlicingVector(0.5, 0, 0.0);
   //pvdv->setShaders(false, false, false, false, false, true);
   _pvdv->updateTransferValues(false);
+
+  _cdata.push_back({50,50,1});
+  _cdata.push_back({99, 99, 2});
+  _cdata.push_back({75, 30, 1});
   _tv->insertVisualizer(_pvdv.get());
   _tv->replot(30, 30, 30, 0, 0, 0);
-  TransferFunction* trans = _pvdv->getTransferFunction();
-  trans->insertPoint(50, 50, 100, 100, 1, true);
-  trans->insertPoint(99, 99, 100, 100, 2, true);
-  trans->insertPoint(75, 30, 100, 100, 1, true);
 }
 
 std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const std::string& fileName) const
@@ -183,6 +183,13 @@ void Scenario::callDefferedGL()
   for (int i = 0; i < e_obj.getSize(); i++)
     if (e_obj(i)->isVisible())
       e_obj(i)->replot();
+
+  while(!_cdata.empty()) {
+    const ColorInsertData& theD = _cdata.front();
+    _pvdv->getTransferFunction()->insertPoint(theD.x, theD.y, 100, 100, theD.type, true);
+    _cdata.pop_front();
+  }
+  _pvdv->updateTransferValues(true);
 }
 
 } // namespace MySoothingNamespace
