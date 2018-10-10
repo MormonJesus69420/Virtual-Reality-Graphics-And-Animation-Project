@@ -763,7 +763,7 @@ namespace GL {
                  "\n"
                  "    }\n"
                  "\n"
-//                 "    dst = vec4(1,0,0,1); \n"
+//                 "    dst = vec4(texture(samplerDataVolume, textureCoord).rgba); \n"
                  "    out_Color = dst;\n;"
                  "\n}"
                  );

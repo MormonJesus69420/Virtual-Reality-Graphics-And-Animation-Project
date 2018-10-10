@@ -112,15 +112,19 @@ void Scenario::initCurve()
 void Scenario::initVolumetric()
 {
   std::shared_ptr<std::vector<GMlib::Point<float, 3>>> content = readFile("bjerkvikground.txt");
-  auto tv = new TerrainVolume(GMlib::Vector<int, 3>(30, 30, 30), content);
-  auto pvdv = new GMlib::PVolumeDefaultVisualizer<float, 3>();
+  _tv = std::make_unique<TerrainVolume>(GMlib::Vector<int, 3>(30, 30, 30), content);
+  _pvdv = std::make_unique<GMlib::PVolumeDefaultVisualizer<float, 3>>();
   //pvdv->setSlicingVector(0.5, 0, 0.0);
   //pvdv->setShaders(false, false, false, false, false, true);
-  pvdv->updateTransferValues(false);
-  tv->insertVisualizer(pvdv);
-  tv->replot(30, 30, 30, 0, 0, 0);
-  this->scene()->insert(tv);
-  scene()->getCameras()[0]->lock(tv);
+  _pvdv->updateTransferValues(false);
+  _tv->insertVisualizer(_pvdv.get());
+  _tv->replot(30, 30, 30, 0, 0, 0);
+  this->scene()->insert(_tv.get());
+  TransferFunction* trans = _pvdv->getTransferFunction();
+  trans->insertPoint(50, 50, 100, 100, 1, true);
+  trans->insertPoint(99, 99, 100, 100, 2, true);
+  trans->insertPoint(75, 30, 100, 100, 1, true);
+  scene()->getCameras()[0]->lock(_tv.get());
 }
 
 std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const std::string& fileName) const

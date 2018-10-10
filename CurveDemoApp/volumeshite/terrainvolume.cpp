@@ -1,5 +1,6 @@
 #include "terrainvolume.h"
 #include "gmpfinitedifferencevolume.h"
+#include "transferfunction.h"
 #include <QDebug>
 #include <cmath>
 #include <random>
@@ -62,8 +63,6 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
 
   for (const auto& vec : *_transformed) {
     (*_points)[vec[0]][vec[1]][vec[2]]++;
-    //    (*_points)[vec[0]][vec[1]][vec[2]] ++;
-    //    (*_points)[vec[0]][vec[1]][vec[2]] ++;
 
     if (_maxPoints < (*_points)[vec[0]][vec[1]][vec[2]])
       _maxPoints = (*_points)[vec[0]][vec[1]][vec[2]];
@@ -130,7 +129,6 @@ GMlib::Vector<float, 3> TerrainVolume::computeMaxValues(std::vector<GMlib::Point
 
   auto zIt = std::max_element(tData->begin(), tData->end(), compareZ);
 
-  //  return GMlib::Vector<float,3>{(*xIt)[0], (*yIt)[1], (*zIt)[2]};
   return { (*xIt)[0], (*yIt)[1], (*zIt)[2] };
 }
 
@@ -141,6 +139,7 @@ GMlib::Vector<float, 3> TerrainVolume::computeMinValues(std::vector<GMlib::Point
   auto yIt = std::min_element(tData->begin(), tData->end(), compareY);
 
   auto zIt = std::min_element(tData->begin(), tData->end(), compareZ);
+
   return { (*xIt)[0], (*yIt)[1], (*zIt)[2] };
 }
 
@@ -151,7 +150,7 @@ void TerrainVolume::toggleNextStep()
   //    GMlib::DVectorN<GMlib::CFDCell<float,3> ,3 > pointset;
   //    pointset.setDim(GMlib::Vector<int,3>(_dim[0],_dim[1],_dim[2]));
   float min = getValue(GMlib::Vector<float, 3>(0, 0, 0));
-  float max = getValue(GMlib::Vector<float, 3>(_dim[0], _dim[1], _dim[2]));
+  float max [[maybe_unused]] = getValue(GMlib::Vector<float, 3>(_dim[0], _dim[1], _dim[2]));
 
   for (int i = 0; i < _dim[0]; i++)
     for (int j = 0; j < _dim[1]; j++)
@@ -163,9 +162,9 @@ void TerrainVolume::toggleNextStep()
         float v1 = getValue(GMlib::Vector<float, 3>(rnd1, 0, 0));
         float v2 = getValue(GMlib::Vector<float, 3>(0, rnd2, 0));
         float v3 = getValue(GMlib::Vector<float, 3>(0, 0, rnd3));
-        float r = convertToHeatColors(v1, min, max);
-        float g = convertToHeatColors(v2, min, max);
-        float b = convertToHeatColors(v3, min, max);
+        float r = convertToHeatColors(v1, min, _maxPoints);
+        float g = convertToHeatColors(v2, min, _maxPoints);
+        float b = convertToHeatColors(v3, min, _maxPoints);
         data[i][j][k].setColor(GMlib::Vector<float, 4>(r, g, b, randomaplha));
         if (i > 8 && i < 22 && j > 8 && j < 22)
           data[i][j][k].setColor(GMlib::Vector<float, 4>(1, 1, 1, 1));
