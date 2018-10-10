@@ -145,7 +145,7 @@ void Scenario::initVolumetric()
   _cdata.push_back({99, 99, 2});
   _cdata.push_back({75, 30, 1});
   _tv->insertVisualizer(_pvdv.get());
-  _tv->replot(30, 30, 30, 0, 0, 0);
+  _tv->replot(DIM, DIM, DIM, 0, 0, 0);
 }
 
 std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const std::string& fileName) const

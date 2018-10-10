@@ -10,7 +10,7 @@
 //stl
 #include <memory>
 
-#define DIM 30
+#define DIM 50
 
 class TerrainVolume : public GMlib::PFiniteDifferenceVolume<float, 3> {
   public:
