@@ -175,15 +175,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  The main content of the report  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\mysection{1}{Introduction}
+\mysection{1}{Acknowledgements}
+We would like to thank Børre Bang and Aleksander Pedersen for giving us the initial foundations for the code of the project, and for helping us with setting up the project and volumetric visualization.
+
+We would like to thank Kent-Arne Larsen, Olav Kjartan Larseng and Hans Victor Anderson Lindbäck for helping us understand how to apply colours to the transfer function, and how to apply this to the GUI.
+
+\mysection{2}{Introduction}
 Our goal in this project was to use raycasting to visualize terrain data of Bjerkvik in a 3D-space. The data was provided in the form of a text file with points, and our aim was to see if we could use colors to visualize different parameters in the 3D-model. Examples of parameters that we could use were \emph{height} and \emph{point density}.
 %In this project we aimed to visualize intrinsic properties of B-Spline curves (curve from now on) in 3D-space. These intrinsic curve properties are \emph{curvature} and \emph{torsion}. Curvature defines how fast a curve changes direction at any given point, whereas torsion defines how much the curve is "twisting" or "coming out of" the plane of curvature. As such we see that a curve cannot have torsion at a point if there is no curvature there. \cite{jia_2017}
 
-\mysection{2}{Methods}
+\mysection{3}{Methods}
 %TODO: Check if this is actual bullshit or not, was really tired when I wrote this.
 We used GMlib to represent and render the terrain in 3D-space, and used a technique called ray casting to render the terrain to the window.
 
-In our application, data is first read from a file. After all of the samples have been stored in the file, we determine the maximum and minimum values in the x-, y- and z-axis. After we have found these values, we use them to normalize all of the data through feature scaling, project it into our volume, partition the volume into samples, and determine the amount of points in each sample. This amount is used to determine the color and alpha (transparency) of the sample.
+In our application, data is first read from a file. After all of the samples have been stored in the file, we determine the maximum and minimum values in the x-, y- and z-axis. After we have found these values, we use them to normalize all of the data through feature scaling, project it into our volume, partition the volume into samples, and determine the amount of points in each sample. This amount is used to determine the color and alpha (transparency) of the sample. The transformation we use for the data is detailed below:
+
+$$ X_{norm} = \frac{X - X_{min}}{X_{max}-X_{min}} * DIM$$
 
 Sans and Ramona \cite{san_2017} defines ray casting as a technique for rendering three-dimensional shapes without having to reconstruct the data. For each pixel in the image, a ray is cast into the canvas, and the models in the picture are visualized by having the light interact with the samples from the data. Unlike the similarly named ray-tracing, ray casting does not trace rays recursively, and instead only does it once. The benefit of using ray casting is that the work is light and can easily be panellised, making it ideal for a Graphics-Processing Unit (GPU).
 
@@ -210,7 +217,7 @@ We also make use of a transfer function in our code. A transfer function is a fu
 %  \label{fig:uml}
 %\end{figure}
 
-\mysection{3}{Results}
+\mysection{4}{Results}
 Our result is a program where you can see the terrain visualized. The visualization can be rotated and viewed from different angles, and you can easily make out the terrain (Even though it is a bit stretched at the moment). On one of the sides of the GUI (right or left), there are four coloured boxes, which provide the colour points for the transfer function. Clicking on the boxes adds a point with the colour clicked to the transfer function, and you can click a box multiple times to add different gradients of a colour. Our terrain visualization code is bundled with the curve visualization, and can be enabled by pressing 'T' in the finished program.
 %We have ended up with a really adequate visualization program for curvature and torsion where user can easily see both of these properties. Visualization is really easy to inspect, transform and see how curvature and torsion change after manipulation. \Cref{fig:kurwature} shows an example of curve simulated and visualized in our program. User can easily twist, bend and rotate the curve to inspect how distorions of it change its properties.
 \begin{figure}[H]
@@ -220,7 +227,7 @@ Our result is a program where you can see the terrain visualized. The visualizat
   \label{fig:kurwature}
 \end{figure}
 
-\mysection{4}{Analysis}
+\mysection{5}{Analysis}
 From our interactions with the teachers and observations, we conclude that we have managed to render the terrain properly with ray casting, although it currently is stretch quite a bit vertically. The colours are also visualized properly, according to the densities we set, but density is the only parameter we can visualize with colours right now.
 
 We originally wanted to change the colours by the use of a drop-down menu, but after discussing with Alekander, we agreed to use the coloured boxes instead, as this proved the most intuitive for the end user.
@@ -234,7 +241,7 @@ We originally wanted to change the colours by the use of a drop-down menu, but a
 %\end{align*}
 %which will normalize the torsion values so that both negative and positive torsion values are set based on maximum torsion.
 
-\mysection{5}{Discussion}
+\mysection{6}{Discussion}
 So far, we are happy with the result of our work, which is the visualizer. Setting colours for the transfer function feels intuitive in our opinion (as you only need to click the colored squares to set the colors). It also runs moderately fast, with reading the data from the disk taking the longest amount of time (although it reads the entire file in 5 seconds on our computers, so it is not exactly slow). Meanwhile, transforming the data to fit our model and rendering it takes a fraction of a second, so we are quite content with the performance.
 
 We have several opportunities for further development in our visualization. One such opportunity is to change the ray tracing and transfer function to render colours based on other things, such as the height of the map, or some other volumetric data. Another thing we could add if given a bit more development time is functionality for removing individual points from the transfer function (as you can only remove the points all at once right now).
@@ -242,10 +249,7 @@ We have several opportunities for further development in our visualization. One 
 
 %There are of course possibilities for further development and improvements in our visualizer. One of these would be to implement restrictions on curve editing, so we don't end up with enourmous circles that result from extremely high curvature. Another feature worth implementing would be possibility to visualize higher order derivatives of curve, that could be easily done by adding lines at various points in curve with length equal to magnitude of these derivatives.
 
-\mysection{6}{Acknowledgements}
-We would like to thank Børre Bang and Aleksander Pedersen for giving us the initial foundations for the code of the project, and for helping us with setting up the project and volumetric visualization.
 
-We would like to thank Kent-Arne Larsen, Olav Kjartan Larseng and Hans Victor Anderson Lindbäck for helping us understand how to apply colours to the transfer function, and how to apply this to the GUI.
 
 \mysection{7}{Bibliography}
 \begingroup
