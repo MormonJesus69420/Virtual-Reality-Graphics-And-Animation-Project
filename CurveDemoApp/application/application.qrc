@@ -3,5 +3,7 @@
         <file>qml/main.qml</file>
         <file>qml/components/HidBindingView.qml</file>
         <file>qml/components/TextureViewer.qml</file>
+        <file>qml/components/createpoint.js</file>
+        <file>qml/components/point.qml</file>
     </qresource>
 </RCC>

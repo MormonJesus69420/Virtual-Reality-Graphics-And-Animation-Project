@@ -58,7 +58,7 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
           y--;
         if(z == _dim[2])
           z--;
-        return GMlib::Vector<int, 3>{ z, x, y };
+        return GMlib::Vector<int, 3>{ z,y,x };
       });
 
   _points = std::make_shared<GMlib::Vector<GMlib::Matrix<int, DIM, DIM>, DIM>>();
@@ -83,9 +83,6 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
         (*_points)[k][i][j] = maxval;
     }
   }
-
-  float min [[maybe_unused]] = getValue(GMlib::Vector<float, 3>(2, 2, 2));
-  float max [[maybe_unused]] = getValue(GMlib::Vector<float, 3>(_dim[0] - 2, _dim[1] - 2, _dim[2] - 2));
 
   for (int i = 0; i < _dim[0]; i++)
     for (int j = 0; j < _dim[1]; j++)
