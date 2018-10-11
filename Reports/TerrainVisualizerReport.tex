@@ -187,7 +187,7 @@ In our application, data is first read from a file. After all of the samples hav
 
 Sans and Ramona \cite{san_2017} defines ray casting as a technique for rendering three-dimensional shapes without having to reconstruct the data. For each pixel in the image, a ray is cast into the canvas, and the models in the picture are visualized by having the light interact with the samples from the data. Unlike the similarly named ray-tracing, ray casting does not trace rays recursively, and instead only does it once. The benefit of using ray casting is that the work is light and can easily be panellised, making it ideal for a Graphics-Processing Unit (GPU).
 
-We also make use of a transfer function in our code. A transfer function is a function that determines the color of the different samples in the model based on one or more parameters. In our case, the transfer function highlights the point density. In addition, the transfer function is vital for making sure that the volume is displayed correctly, as the shape will not be mapped properly without it
+We also make use of a transfer function in our code. A transfer function is a function that determines the color of the different samples in the model based on one or more parameters. In our case, the transfer function highlights the point density. In addition, the transfer function is vital for making sure that the volume is displayed correctly, as the shape will not be mapped properly without it.
 %We have used GMlib to represent a curve in 3D space as well as representing its curvature using ovals (circles) and torsion using colours. 
 
 %To represent curvature we transform the curvature measured with vector into a circle with radius equal length of the vector. Curvature at a given point is calculated using:
@@ -211,6 +211,7 @@ We also make use of a transfer function in our code. A transfer function is a fu
 %\end{figure}
 
 \mysection{3}{Results}
+Our result is a program where you can see the terrain visualized. The visualization can be rotated and viewed from different angles, and you can easily make out the terrain (Even though it is a bit stretched at the moment). On one of the sides of the GUI (right or left), there are four coloured boxes, which provide the colour points for the transfer function. Clicking on the boxes adds a point with the colour clicked to the transfer function, and you can click a box multiple times to add different gradients of a colour
 %We have ended up with a really adequate visualization program for curvature and torsion where user can easily see both of these properties. Visualization is really easy to inspect, transform and see how curvature and torsion change after manipulation. \Cref{fig:kurwature} shows an example of curve simulated and visualized in our program. User can easily twist, bend and rotate the curve to inspect how distorions of it change its properties.
 %\begin{figure}[H]
 %  \centering
