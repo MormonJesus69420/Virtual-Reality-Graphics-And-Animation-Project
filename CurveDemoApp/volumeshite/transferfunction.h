@@ -32,6 +32,7 @@ class TransferFunction {
   void loadTransferFunction(const QString& file_name);
 
   void insertPoint(int x, int y, int width, int height, int box, bool insert);
+  void clearPoints();
   void toggleTransfer();
 
   private:

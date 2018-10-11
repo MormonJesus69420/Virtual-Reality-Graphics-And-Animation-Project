@@ -170,6 +170,9 @@ std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const st
 void Scenario::pointClicked(int x, int y, int box) {
   _cdata.push_back({x,y,box});
 }
+void Scenario::pointsClear() {
+  _pvdv->getTransferFunction()->clearPoints();
+}
 
 void Scenario::callDefferedGL()
 {

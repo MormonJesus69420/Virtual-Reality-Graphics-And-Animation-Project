@@ -14,19 +14,20 @@ TransferFunction::TransferFunction()
   _type = 1;
   _box_height = 255;
   _box_width = 256;
+
   _red_points.append(QPoint(0, 0));
   _red_points.append(QPoint(_box_width, 0));
-  //    _red_points.append(QPoint(_box_width/2,_box_height));
-  //    _red_points.append(QPoint(_box_width/2,_box_height/2));
+
   _green_points.append(QPoint(0, 0));
   _green_points.append(QPoint(_box_width, 0));
-  //    _green_points.append(QPoint(_box_width/2,_box_height/2));
+
   _blue_points.append(QPoint(0, 0));
   _blue_points.append(QPoint(_box_width, 0));
-  //    _blue_points.append(QPoint(_box_width/2,_box_height/2));
+
   _alpha_points.append(QPoint(0, 0));
   _alpha_points.append(QPoint(_box_width, 0));
   _alpha_points.append(QPoint(_box_width / 2, _box_height));
+
   updateFunction();
 }
 
@@ -80,6 +81,28 @@ void TransferFunction::insertPoint(int x, int y, int width, int height, int box,
       updateFunction();
     }
   }
+}
+
+void TransferFunction::clearPoints(){
+  _red_points.clear();
+  _green_points.clear();
+  _blue_points.clear();
+  _alpha_points.clear();
+
+  _red_points.append(QPoint(0, 0));
+  _red_points.append(QPoint(_box_width, 0));
+
+  _green_points.append(QPoint(0, 0));
+  _green_points.append(QPoint(_box_width, 0));
+
+  _blue_points.append(QPoint(0, 0));
+  _blue_points.append(QPoint(_box_width, 0));
+
+  _alpha_points.append(QPoint(0, 0));
+  _alpha_points.append(QPoint(_box_width, 0));
+  _alpha_points.append(QPoint(_box_width / 2, _box_height));
+
+  updateFunction();
 }
 
 void TransferFunction::toggleTransfer()

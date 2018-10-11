@@ -114,7 +114,8 @@ void GuiApplication::afterOnSceneGraphInitialized()
   connect(_window.rootObject(), SIGNAL(pointClicked(int, int, int)),
           &_scenario, SLOT(pointClicked(int, int, int)));
 
-
+  connect(_window.rootObject(), SIGNAL(pointsClear()),
+          &_scenario, SLOT(pointsClear()));
 
   // Update RCPair name model
   _scenario.updateRCPairNameModel();

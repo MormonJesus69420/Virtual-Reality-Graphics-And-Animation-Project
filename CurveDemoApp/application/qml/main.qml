@@ -12,6 +12,8 @@ Item {
 
     signal pointClicked(int x, int y, int box)
     signal toggleHidBindView
+    signal pointsClear
+
 
     onToggleHidBindView: {
         hid_bind_view.toggle()
@@ -19,6 +21,15 @@ Item {
 
     Component.onCompleted: {
         PointScript.createComponent()
+    }
+
+    onPointsClear: {
+        for (var i = 5; i< root.children.length; i++){
+            console.log(root.children[i])
+            root.children[i].destroy()
+        }
+
+
     }
 
     Renderer {
@@ -75,6 +86,17 @@ Item {
                 else state = ""
             }
         }
+
+        Button {
+            text: "Clear colours"
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            anchors.margins: 5
+
+            opacity: 0.7
+
+            onClicked: pointsClear()
+        }
     }
 
     Rectangle {
@@ -99,7 +121,7 @@ Item {
             anchors.fill: parent
             function handleMouseRed(mouse) {
                 if(mouse.button & Qt.LeftButton) {
-                    PointScript.createPoint(redrec.x + mouse.x - 5, redrec.y + mouse.y -5)
+                    pointlist.append(PointScript.createPoint(redrec.x + mouse.x - 5, redrec.y + mouse.y -5))
                     root.pointClicked(mouse.x, mouse.y, 1)
                 }
             }
@@ -129,7 +151,7 @@ Item {
             anchors.fill: parent
             function handleMouseGreen(mouse) {
                 if(mouse.button & Qt.LeftButton) {
-                    PointScript.createPoint(greenrec.x + mouse.x - 5, greenrec.y + mouse.y -5)
+                    pointlist.append(PointScript.createPoint(greenrec.x + mouse.x - 5, greenrec.y + mouse.y -5))
                     root.pointClicked(mouse.x, mouse.y, 2)
                 }
             }
@@ -158,7 +180,7 @@ Item {
             anchors.fill: parent
             function handleMouseBlue(mouse) {
                 if(mouse.button & Qt.LeftButton) {
-                    PointScript.createPoint(bluerec.x + mouse.x - 5, bluerec.y + mouse.y -5)
+                    pointlist.append(PointScript.createPoint(bluerec.x + mouse.x - 5, bluerec.y + mouse.y -5))
                     root.pointClicked(mouse.x, mouse.y, 3)
                 }
             }
@@ -178,7 +200,7 @@ Item {
             margins: 30
         }
 
-        gradient: Gradient{
+        gradient: Gradient {
             GradientStop { position: 1.0; color: "white" }
             GradientStop { position: 0.0; color: "black" }
         }
@@ -187,7 +209,7 @@ Item {
             anchors.fill: parent
             function handleMouseAlpha(mouse) {
                 if(mouse.button & Qt.LeftButton) {
-                    PointScript.createPoint(alpharec.x + mouse.x - 5, alpharec.y + mouse.y -5)
+                    pointlist.append(PointScript.createPoint(alpharec.x + mouse.x - 5, alpharec.y + mouse.y -5))
                     root.pointClicked(mouse.x, mouse.y, 4)
                 }
             }

@@ -5,5 +5,5 @@ function createComponent(){
 }
 
 function createPoint(x, y){
-    com.createObject(root, {"x": x, "y": y});
+    return com.createObject(root, {"x": x, "y": y});
 }

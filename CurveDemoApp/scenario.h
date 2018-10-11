@@ -31,6 +31,7 @@ class Scenario : public GMlibWrapper {
 
   public slots:
   void pointClicked(int x, int y, int box);
+  void pointsClear();
   void toggleSimulation();
   void callDefferedGL();
 
