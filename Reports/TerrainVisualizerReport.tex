@@ -213,14 +213,15 @@ We also make use of a transfer function in our code. A transfer function is a fu
 \mysection{3}{Results}
 Our result is a program where you can see the terrain visualized. The visualization can be rotated and viewed from different angles, and you can easily make out the terrain (Even though it is a bit stretched at the moment). On one of the sides of the GUI (right or left), there are four coloured boxes, which provide the colour points for the transfer function. Clicking on the boxes adds a point with the colour clicked to the transfer function, and you can click a box multiple times to add different gradients of a colour
 %We have ended up with a really adequate visualization program for curvature and torsion where user can easily see both of these properties. Visualization is really easy to inspect, transform and see how curvature and torsion change after manipulation. \Cref{fig:kurwature} shows an example of curve simulated and visualized in our program. User can easily twist, bend and rotate the curve to inspect how distorions of it change its properties.
-%\begin{figure}[H]
-%  \centering
-%  \includegraphics[width=0.8\textwidth]{Kurwature}
-%  \caption{Visualization of curvature and torsion in our program.}
-%  \label{fig:kurwature}
-%\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{Terrainvis}
+  \caption{Current ray cast of the points in our program, with brighter terrain indicating higher point density}
+  \label{fig:kurwature}
+\end{figure}
 
 \mysection{4}{Analysis}
+From our interactions with the teachers and observations, we conclude that we have managed to render the terrain properly with ray casting, although it currently is stretch quite a bit vertically. We do also have ability to change up the colors, which is nice %TODO review whether nice is a good word here.
 %Based on our calculations and observations we conclude that this visualization program is quite accurate and represents the curve properties quite well. We have found out that in some instances it could've been beneficial to normalize the curvature values as to limit how big the circles can grow, but in most usecases this proved to be unnecessary, and it could easily be avoided by setting limitations on curve editing capabilities. 
 
 %We have tried many different ways of displaying torsion by, but after discussion with Børre Bang we came to conclusion that this is the most readable option for displaying torsion. So hue is set by torsions sign, and saturation is set by relative value of torsion. Saturation is given by:
