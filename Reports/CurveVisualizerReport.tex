@@ -16,10 +16,6 @@
 \usepackage{lmodern,textcomp}
 
 % Margin defining package
-\usepackage{geometry}         
-\geometry{a4paper
-  ,margin=1in
-}
 
 % For quotations
 \usepackage{csquotes}
@@ -205,7 +201,7 @@ Here we will explain what we do to visualize these properties. First we create a
 We have ended up with a really adequate visualization program for curvature and torsion where user can easily see both of these properties. Visualization is really easy to inspect, transform and see how curvature and torsion change after manipulation. \Cref{fig:kurwature} shows an example of curve simulated and visualized in our program. User can easily twist, bend and rotate the curve to inspect how distorions of it change its properties.
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{Kurwature}
+  \includegraphics[width=\textwidth]{Kurwature}
   \caption{Visualization of curvature and torsion in our program.}
   \label{fig:kurwature}
 \end{figure}
@@ -219,6 +215,7 @@ We have tried many different ways of displaying torsion by, but after discussion
 \end{align*}
 which will normalize the torsion values so that both negative and positive torsion values are set based on maximum torsion.
 
+\pagebreak
 \mysection{5}{Discussion}
 We are quite happy with our visualizer, it is quite simple and easy to understand as well as it is lightweight and does not require use of shaders. It runs quite fast and lets user easily understand what he sees on the screen. It is also dynamic so each small edit made to curve is immediatly displayed on screen.
 
