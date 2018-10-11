@@ -186,6 +186,8 @@ We used GMlib to represent and render the terrain in 3D-space, and used a techni
 In our application, data is first read from a file. After all of the samples have been stored in the file, we determine the maximum and minimum values in the x-, y- (and z?)-axis. After we have found these values, we use them to normalize all of the data to our space, where we partition the volume into samples, and determine the amount of points in each sample. This amount is used to determine the color and alpha (transparency) of the sample.
 
 Sans and Ramona \cite{san_2017} defines ray casting as a technique for rendering three-dimensional shapes without having to reconstruct the data. For each pixel in the image, a ray is cast into the canvas, and the models in the picture are visualized by having the light interact with the samples from the data. Unlike the similarly named ray-tracing, ray casting does not trace rays recursively, and instead only does it once. The benefit of using ray casting is that the work is light and can easily be panellised, making it ideal for a Graphics-Processing Unit (GPU).
+
+We also make use of a transfer function in our code. A transfer function is a function that determines the color of the different samples in the model based on one or more parameters. In our case, the transfer function highlights the point density. In addition, the transfer function is vital for making sure that the volume is displayed correctly, as the shape will not be mapped properly without it
 %We have used GMlib to represent a curve in 3D space as well as representing its curvature using ovals (circles) and torsion using colours. 
 
 %To represent curvature we transform the curvature measured with vector into a circle with radius equal length of the vector. Curvature at a given point is calculated using:
@@ -221,6 +223,7 @@ Sans and Ramona \cite{san_2017} defines ray casting as a technique for rendering
 %Based on our calculations and observations we conclude that this visualization program is quite accurate and represents the curve properties quite well. We have found out that in some instances it could've been beneficial to normalize the curvature values as to limit how big the circles can grow, but in most usecases this proved to be unnecessary, and it could easily be avoided by setting limitations on curve editing capabilities. 
 
 %We have tried many different ways of displaying torsion by, but after discussion with Børre Bang we came to conclusion that this is the most readable option for displaying torsion. So hue is set by torsions sign, and saturation is set by relative value of torsion. Saturation is given by:
+
 %\begin{align*}
 %  saturation=\frac{|\tau|}{|\tau_{max}|}
 %\end{align*}
