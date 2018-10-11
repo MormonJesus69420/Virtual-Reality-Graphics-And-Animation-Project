@@ -33,7 +33,6 @@ class CFDCell : public Vector<T, n> {
 
   CFDCell<T, n>& operator=(const CFDCell<T, n>& c)
   {
-    //For(int i=0;i<n;i++) _pt[i] = c.pt[i];
     memcpy(this->_pt, c._pt, n * sizeof(T));
     _value = c._value;
     _color = c._color;

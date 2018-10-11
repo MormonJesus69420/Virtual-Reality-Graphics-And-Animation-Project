@@ -129,7 +129,6 @@ Item {
         }
     }
 
-
     Rectangle {
         id: greenrec
         width:  100

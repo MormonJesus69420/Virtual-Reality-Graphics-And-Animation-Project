@@ -67,42 +67,22 @@ inline void PFiniteDifferenceVolume<T, n, m>::eval(T u, T v, T w, int d1, int d2
   int _dim_[3] = { _order + 1, _order + 1, _order + 1 };
   this->_p.setDim(_dim_);
 
-  //    float prosu = u/this->_no_sam_u;
-  //    float prosv = v/this->_no_sam_v;
-  //    float prosw = w/this->_no_sam_w;
-
   for (int p = 0; p < this->_p.getDim()[0]; p++)
     for (int l = 0; l < this->_p.getDim()[1]; l++)
       for (int o = 0; o < this->_p.getDim()[2]; o++) {
-        //                std::cout << "Checking _p:" << this->_p[p][l][o] << std::endl;
-        //                std::cout << "Checking _fSet:" << this->_fSet[i][j][k][p][l][o] << std::endl;
         this->_p[p][l][o] = _fSet[i][j][k][p][l][o];
       }
 }
 
-//  template <typename T, int n>
-//  inline
-//  void PVolume<T, n>::findIndex(T u, T v, T w, int &i, int &j, int &k)
-//  {
-//    T t = getParStartU();
-//    T t2 = getParDeltaU();
-//    T t3 = getParEndU();
-//    i = ( _no_sam_u-1)*( u-getParStartU())/(getParDeltaU())+0.1;
-//    j = ( _no_sam_v-1)*( v-getParStartV())/(getParDeltaV())+0.1;
-//    k = ( _no_sam_w-1)*( w-getParStartW())/(getParDeltaW())+0.1;
-//  }
-
 template <typename T, int n, int m>
 inline T PFiniteDifferenceVolume<T, n, m>::getEndPU()
 {
-  //    T val = _pSet[_pSet.getDim()[0]-1][0][0](0);
   return T(_pSet[_pSet.getDim()[0] - 1][0][0](0));
 }
 
 template <typename T, int n, int m>
 inline T PFiniteDifferenceVolume<T, n, m>::getEndPV()
 {
-  //    T val = _pSet[0][_pSet.getDim()[1]-1][0](1);
   return T(_pSet[0][_pSet.getDim()[1] - 1][0](1));
 }
 
@@ -110,28 +90,24 @@ template <typename T, int n, int m>
 inline T PFiniteDifferenceVolume<T, n, m>::getEndPW()
 {
 
-  //    T val = _pSet[0][0][_pSet.getDim()[2]-1](2);
   return T(_pSet[0][0][_pSet.getDim()[2] - 1](2));
 }
 
 template <typename T, int n, int m>
 inline T PFiniteDifferenceVolume<T, n, m>::getStartPU()
 {
-  //    T val = _pSet[0][0][0](0);
   return T(_pSet[0][0][0](0));
 }
 
 template <typename T, int n, int m>
 inline T PFiniteDifferenceVolume<T, n, m>::getStartPV()
 {
-  //    T val = _pSet[0][0][0](1);
   return T(_pSet[0][0][0](1));
 }
 
 template <typename T, int n, int m>
 inline T PFiniteDifferenceVolume<T, n, m>::getStartPW()
 {
-  //    T val = _pSet[0][0][0](2);
   return T(_pSet[0][0][0](2));
 }
 
@@ -246,9 +222,6 @@ inline void PFiniteDifferenceVolume<T, n, m>::init()
   int _size = (_order + 1);
   int i, j, k, d1, d2, d3;
   int _dim[3] = { _size, _size, _size };
-  //    _xdif = (_pSet[_pSet.getDim()[0]-1][0][0]() - _pSet[0][0][0]()).length();
-  //    _ydif = (_pSet[0][_pSet.getDim()[1]-1][0]() - _pSet[0][0][0]()).length();
-  //    _zdif = (_pSet[0][0][_pSet.getDim()[2]-1]() - _pSet[0][0][0]()).length();
 
   for (d1 = 0; d1 < _size; d1++)
     for (d2 = 0; d2 < _size; d2++)
@@ -258,10 +231,8 @@ inline void PFiniteDifferenceVolume<T, n, m>::init()
             for (k = 0; k < _pSet.getDim()[2]; k++) {
               if (d1 == 0 && d2 == 0 && d3 == 0) {
                 _fSet[i][j][k].setDim(_dim);
-                //                                std::cout << "ijk" << i << j << k << std::endl;
                 _fSet[i][j][k][d1][d2][d3] = _pSet[i][j][k];
               }
-
               if (i == 0 && d1 > 0)
                 forwardDiffU(i, j, k, d1, d2, d3);
               if (j == 0 && d2 > 0)
@@ -280,8 +251,6 @@ inline void PFiniteDifferenceVolume<T, n, m>::init()
                 symetricDiffV(i, j, k, d1, d2, d3);
               if (k > 0 && k < (_pSet.getDim()[2] - 1) && d3 > 0)
                 symetricDiffW(i, j, k, d1, d2, d3);
-              // Instead of 2h the symetric difference scheme uses the distance between
-              // the points at +1 and -1 to compensate for a non uniform grid.
             }
 }
 

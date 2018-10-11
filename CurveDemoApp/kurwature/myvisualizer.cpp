@@ -9,8 +9,8 @@ using GMVec3 = GMlib::Vector<float, 3>;
 namespace MySoothingNamespace {
 
 MyVisualizer::MyVisualizer(const GMlib::PBSplineCurve<float>* c, const float tStep)
-  : _curve(c),
-    _tStep(tStep)
+    : _curve(c)
+    , _tStep(tStep)
 {
   _wrapper = &(GMlibWrapper::instance());
   if (_wrapper == nullptr) { // If this happens, we tried to get the wrapper too early
@@ -19,10 +19,10 @@ MyVisualizer::MyVisualizer(const GMlib::PBSplineCurve<float>* c, const float tSt
 }
 
 MyVisualizer::MyVisualizer(const MyVisualizer& vis, const GMlib::PBSplineCurve<float>* c)
-  : _curve(c),
-    _params(vis._params),
-    _wrapper(vis._wrapper),
-    _tStep(vis._tStep)
+    : _curve(c)
+    , _params(vis._params)
+    , _wrapper(vis._wrapper)
+    , _tStep(vis._tStep)
 {
 }
 
@@ -74,7 +74,7 @@ void MyVisualizer::setupCircles()
   findGreatestTorsion(); // Done here so we only calculate it once, used for calculateColor
 
   for (auto& param : _params) {
-    auto mycircle =  std::make_shared<GMlib::PCircle<float>>(param.curvature * 0.05f);
+    auto mycircle = std::make_shared<GMlib::PCircle<float>>(param.curvature * 0.05f);
 
     param.circle = mycircle;
     moveCircleToCurve(param);
@@ -87,14 +87,16 @@ void MyVisualizer::setupCircles()
   }
 }
 
-void MyVisualizer::removeCircles(){
-  for(CurveParams param: _params){
+void MyVisualizer::removeCircles()
+{
+  for (CurveParams param : _params) {
     _wrapper->scene()->remove(param.circle.get());
   }
 }
 
-void MyVisualizer::insertCircles(){
-  for(CurveParams param: _params){
+void MyVisualizer::insertCircles()
+{
+  for (CurveParams param : _params) {
     _wrapper->scene()->insert(param.circle.get());
   }
 }
@@ -156,26 +158,26 @@ void MyVisualizer::updateParam(MyVisualizer::CurveParams& p)
   p.circle->sample(100, 2);
 }
 
-MyVisualizer::CurveParams::CurveParams(MyVisualizer::CurveParams &&p)
-  : t(std::move(p.t)),
-    curvature(std::move(p.curvature)),
-    torsion(std::move(p.torsion)),
-    position(p.position),
-    tangent(p.tangent),
-    circle(std::move(p.circle))
+MyVisualizer::CurveParams::CurveParams(MyVisualizer::CurveParams&& p)
+    : t(std::move(p.t))
+    , curvature(std::move(p.curvature))
+    , torsion(std::move(p.torsion))
+    , position(p.position)
+    , tangent(p.tangent)
+    , circle(std::move(p.circle))
 {
 }
 
 MyVisualizer::CurveParams::CurveParams(float t, float curvature, float torsion, const GMVec3& position, const GMVec3& tangent)
-  : t(t),
-    curvature(curvature),
-    torsion(torsion),
-    position(position),
-    tangent(tangent)
+    : t(t)
+    , curvature(curvature)
+    , torsion(torsion)
+    , position(position)
+    , tangent(tangent)
 {
 }
 
-MyVisualizer::CurveParams& MyVisualizer::CurveParams::operator=(MyVisualizer::CurveParams &&p)
+MyVisualizer::CurveParams& MyVisualizer::CurveParams::operator=(MyVisualizer::CurveParams&& p)
 {
   t = std::move(p.t);
   curvature = std::move(p.curvature);

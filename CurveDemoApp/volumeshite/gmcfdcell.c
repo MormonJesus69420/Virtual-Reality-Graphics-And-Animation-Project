@@ -1,27 +1,5 @@
 #include "gmcfdcell.h"
 
-//template<class T, int n>
-//GMlib::CFDCell<T,n>::CFDCell():Vector<T,n>(0.0)
-//{
-//  CFDCell(GMlib::Point<T,n>(0.0), GMlib::Vector<float,4>(0.0), GMlib::Vector<T,3>(0.0), GMlib::Vector<float,3>(0.0), T(0));
-//}
-
-//template<class T, int n>
-//GMlib::CFDCell<T,n>::CFDCell(GMlib::Point<T,n> p):Vector<T,n>(p)
-//{
-//  CFDCell(p, GMlib::Vector<float,4>(0.0), GMlib::Vector<T,3>(0.0), GMlib::Vector<float,3>(0.0), T(0));
-//}
-
-//template<class T, int n>
-//GMlib::CFDCell<T,n>::CFDCell(GMlib::Point<T, n> p, GMlib::Vector<T, 4> color, GMlib::Vector<T, 3> position, GMlib::Vector<T,3> direction, T value):Vector<T,n>(p)
-//{
-//  _color = color;
-//  _position = position;
-//  _value = value;
-//  _direction = direction;
-
-//}
-
 template <class T, int n>
 GMlib::CFDCell<T, n>::CFDCell(T v)
     : Vector<T, n>(v)

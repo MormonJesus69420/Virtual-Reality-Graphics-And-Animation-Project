@@ -112,10 +112,10 @@ void GuiApplication::afterOnSceneGraphInitialized()
       _window.rootObject(), SIGNAL(toggleHidBindView()));
 
   connect(_window.rootObject(), SIGNAL(pointClicked(int, int, int)),
-          &_scenario, SLOT(pointClicked(int, int, int)));
+      &_scenario, SLOT(pointClicked(int, int, int)));
 
   connect(_window.rootObject(), SIGNAL(pointsClear()),
-          &_scenario, SLOT(pointsClear()));
+      &_scenario, SLOT(pointsClear()));
 
   // Update RCPair name model
   _scenario.updateRCPairNameModel();
@@ -123,7 +123,7 @@ void GuiApplication::afterOnSceneGraphInitialized()
   // Start simulator
   _scenario.start();
 
-  connect(&_hidmanager, SIGNAL(signToggleVisualization()),  &_scenario, SLOT(toggleSimulation()), Qt::DirectConnection);
+  connect(&_hidmanager, SIGNAL(signToggleVisualization()), &_scenario, SLOT(toggleSimulation()), Qt::DirectConnection);
   connect(&_window, &Window::beforeRendering, &_scenario, &MySoothingNamespace::Scenario::callDefferedGL, Qt::DirectConnection);
 }
 

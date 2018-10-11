@@ -9,7 +9,6 @@
 
 #include <gmCoreModule>
 
-
 /**
  *Based on fredrik
  *

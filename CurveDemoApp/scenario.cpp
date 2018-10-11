@@ -167,10 +167,12 @@ std::shared_ptr<std::vector<GMlib::Point<float, 3>>> Scenario::readFile(const st
   return result;
 }
 
-void Scenario::pointClicked(int x, int y, int box) {
-  _cdata.push_back({x,y,box});
+void Scenario::pointClicked(int x, int y, int box)
+{
+  _cdata.push_back({ x, y, box });
 }
-void Scenario::pointsClear() {
+void Scenario::pointsClear()
+{
   _pvdv->getTransferFunction()->clearPoints();
 }
 
@@ -183,7 +185,7 @@ void Scenario::callDefferedGL()
     if (e_obj(i)->isVisible())
       e_obj(i)->replot();
 
-  while(!_cdata.empty()) {
+  while (!_cdata.empty()) {
     const ColorInsertData& theD = _cdata.front();
     _pvdv->getTransferFunction()->insertPoint(theD.x, theD.y, 100, 100, theD.type, true);
     _cdata.pop_front();

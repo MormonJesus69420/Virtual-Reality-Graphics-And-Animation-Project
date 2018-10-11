@@ -96,9 +96,6 @@ class PVolumeDefaultVisualizer : public PVolumeVisualizer<T, n> {
   int _transferType;
 
   int _counter;
-  //    GLuint                      _no_strips;
-  //    GLuint                      _no_strip_indices;
-  //    GLsizei                     _strip_size;
 
   void draw() const;
 

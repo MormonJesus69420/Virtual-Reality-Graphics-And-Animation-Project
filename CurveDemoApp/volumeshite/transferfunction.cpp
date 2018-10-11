@@ -50,7 +50,6 @@ void TransferFunction::insertPoint(int x, int y, int width, int height, int box,
     int yPoint = 255 - int(float(y) / float(height) * 255.0);
 
     if (insert) {
-      //  qDebug() << "transfer entered" << x << ":" << xPoint << y <<":" << yPoint << width << height << box;
       qDebug() << "Inserting transfer point " << xPoint << yPoint;
 
       QPoint p(xPoint, yPoint);
@@ -83,7 +82,8 @@ void TransferFunction::insertPoint(int x, int y, int width, int height, int box,
   }
 }
 
-void TransferFunction::clearPoints(){
+void TransferFunction::clearPoints()
+{
   _red_points.clear();
   _green_points.clear();
   _blue_points.clear();
@@ -150,16 +150,6 @@ void TransferFunction::linearInterpolation(QVector<QPointF>& interp_points, QVec
 void TransferFunction::sort(QVector<QPoint>& list)
 {
   qSort(list.begin(), list.end(), xLess);
-
-  // Remove duplicates (points that are too close to each other)
-  //  QMutableVectorIterator<QPoint> i(list);
-  //  i.next(); // Move the iterator forward
-  //  while(i.hasNext())
-  //  {
-  //    const QPoint &curr = i.next();
-  //    if (i.hasNext() && (std::abs(curr.x() - i.next().x()) < 5))
-  //      i.remove();
-  //  }
 }
 
 void TransferFunction::removeClosestPoint(ColorComponent comp, const QPoint& pos)
@@ -202,9 +192,6 @@ QVector<QPoint> TransferFunction::scalePoints(QVector<QPoint>& points)
   QVectorIterator<QPoint> i(points);
   while (i.hasNext()) {
     QPoint curr_point = i.next();
-    //    QPoint point;
-    //    point.setX(((float)curr_point.x() /(float)_box_width * 256 ));
-    //    point.setY(255 - ((float)curr_point.y() /(float)_box_height * 255));
     scaledpoints.append(curr_point);
   }
   return scaledpoints;

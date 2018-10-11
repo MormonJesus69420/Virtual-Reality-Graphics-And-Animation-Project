@@ -48,7 +48,8 @@ void MyBSplineCurve::createVisualizer()
   _visualizer->visualize();
 }
 
-MyVisualizer* MyBSplineCurve::getVisualizer(){
+MyVisualizer* MyBSplineCurve::getVisualizer()
+{
   return _visualizer.get();
 }
 

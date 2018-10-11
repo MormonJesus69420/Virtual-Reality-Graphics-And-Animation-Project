@@ -44,21 +44,18 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
 
   _transformed = std::make_shared<std::vector<GMlib::Vector<int, 3>>>();
 
-
   std::transform(tData->begin(), tData->end(), std::back_insert_iterator<std::vector<GMlib::Vector<int, 3>>>(*_transformed),
       [this](GMlib::Point<float, 3>& vec) {
         int x = int(std::lround(((vec[0] - this->_min[0]) / this->_delta[0]) * this->_dim[0]));
         int y = int(std::lround(((vec[1] - this->_min[1]) / this->_delta[1]) * this->_dim[1]));
         int z = int(std::lround(((vec[2] - this->_min[2]) / this->_delta[2]) * this->_dim[2]));
-//        int z = int(std::lround(vec[2]));
-//        z++;
-        if(x == _dim[0])
+        if (x == _dim[0])
           x--;
-        if(y == _dim[1])
+        if (y == _dim[1])
           y--;
-        if(z == _dim[2])
+        if (z == _dim[2])
           z--;
-        return GMlib::Vector<int, 3>{ z,y,x };
+        return GMlib::Vector<int, 3>{ z, y, x };
       });
 
   _points = std::make_shared<GMlib::Vector<GMlib::Matrix<int, DIM, DIM>, DIM>>();
@@ -71,15 +68,15 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
   }
 
   int colMax;
-  for(int i = 0; i < DIM; ++i){
-    for(int j = 0; j < DIM; ++j){
+  for (int i = 0; i < DIM; ++i) {
+    for (int j = 0; j < DIM; ++j) {
       colMax = 0;
-      for(int k = 0; k < DIM; ++k){
-        if((*_points)[k][i][j] > (*_points)[colMax][i][j])
+      for (int k = 0; k < DIM; ++k) {
+        if ((*_points)[k][i][j] > (*_points)[colMax][i][j])
           colMax = k;
       }
       auto maxval = (*_points)[colMax][i][j];
-      for(int k = 0; k < colMax; ++k)
+      for (int k = 0; k < colMax; ++k)
         (*_points)[k][i][j] = maxval;
     }
   }
@@ -91,13 +88,11 @@ TerrainVolume::TerrainVolume(GMlib::Vector<int, 3> dim, std::shared_ptr<std::vec
         data[i][j][k][1] = j;
         data[i][j][k][2] = k;
 
-        //        float value = getValue(GMlib::Vector<float, 3>(i, j, k));
         float value = float(((*_points)[i][j][k]));
         float hvalue = convertToHeatColors(value, 0.f, _maxPoints);
         data[i][j][k].setColor(GMlib::Vector<float, 4>(hvalue, 1 - hvalue, 0, 1));
       }
 
-  //    data[0][0][0].setColor(GMlib::Vector<float,4>(1,0,0,1));
   this->setPointSet(data, 0);
   step = 0;
 }
@@ -111,9 +106,7 @@ float TerrainVolume::getValue(GMlib::Vector<float, 3> xyz)
   if (x + y + z <= 0)
     return 0;
 
-  //    float tval = x+y+z;
   float tval = x * x + y * y + z * z;
-  //    float tval = x+y+z;
 
   return tval;
 }
@@ -160,8 +153,6 @@ void TerrainVolume::toggleNextStep()
 {
 
   std::cout << "toggle next step terrain volume" << std::endl;
-  //    GMlib::DVectorN<GMlib::CFDCell<float,3> ,3 > pointset;
-  //    pointset.setDim(GMlib::Vector<int,3>(_dim[0],_dim[1],_dim[2]));
   float min = getValue(GMlib::Vector<float, 3>(0, 0, 0));
   float max [[maybe_unused]] = getValue(GMlib::Vector<float, 3>(_dim[0], _dim[1], _dim[2]));
 
@@ -188,15 +179,6 @@ void TerrainVolume::toggleNextStep()
         if (k > 13 && k < 16 && j > 13 && j < 16 && i > 13 && i < 16)
           data[i][j][k].setColor(GMlib::Vector<float, 4>(1, 0, 0, 1));
       }
-  //    int randoms = 20000;
-
-  //    for(int i = 0; i < randoms; ++i){
-  //        float randomaplha = rand() / double(RAND_MAX);
-  //        data[rand()%_dim[0]][rand()%_dim[0]][rand()%_dim[0]].setColor(GMlib::Vector<float,4>(1,1,1,randomaplha));
-  //    }
-
-  //    for(int i = 0; i < _dim[2]; ++i)
-  //        data[_dim[0]/2][_dim[1]/2][i].setColor(GMlib::Vector<float,4>(1,1,1,1));
 
   this->setPointSet(data, 0);
   step++;
@@ -214,8 +196,6 @@ float TerrainVolume::convertToHeatColors(float currentTemperature, float min, fl
   float delta = (maxInit - minInit);
 
   float retVal = (currentTemperature - minInit) / delta;
-
-  //    qDebug() << "Return: " << retVal;
 
   return retVal;
 }
